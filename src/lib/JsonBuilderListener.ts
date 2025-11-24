@@ -66,11 +66,16 @@ export class JsonBuilderListener implements NaturalToJsonListener {
   exitValor(ctx: ValorContext): void {
     if (
       !this.currentListName ||
-      !(ctx.parentCtx instanceof Items_listaContext)
+      !(ctx.parent instanceof Items_listaContext)
     ) {
       return;
     }
     const literal = getLiteralValue(ctx);
     this.currentListItems.push(literal);
   }
+
+  visitTerminal() { }
+  visitErrorNode() { }
+  enterEveryRule() { }
+  exitEveryRule() { }
 }

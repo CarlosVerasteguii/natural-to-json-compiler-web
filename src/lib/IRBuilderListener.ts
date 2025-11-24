@@ -70,7 +70,7 @@ export class IRBuilderListener implements NaturalToJsonListener {
   exitValor(ctx: ValorContext): void {
     if (
       !this.currentListName ||
-      !(ctx.parentCtx instanceof Items_listaContext)
+      !(ctx.parent instanceof Items_listaContext)
     ) {
       return;
     }
@@ -82,5 +82,10 @@ export class IRBuilderListener implements NaturalToJsonListener {
       args: [this.currentListName, tipo, literal],
     });
   }
+
+  visitTerminal() { }
+  visitErrorNode() { }
+  enterEveryRule() { }
+  exitEveryRule() { }
 }
 

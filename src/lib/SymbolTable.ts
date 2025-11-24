@@ -7,7 +7,7 @@ export class SymbolEntry {
     public linea: number,
     public columna: number,
     public metadatos: unknown = {}
-  ) {}
+  ) { }
 }
 
 export class SymbolTable {
@@ -55,6 +55,10 @@ export class SymbolTable {
       };
     });
     return info;
+  }
+
+  getSymbols(): Record<string, SymbolEntry> {
+    return Object.fromEntries(this.symbols);
   }
 }
 

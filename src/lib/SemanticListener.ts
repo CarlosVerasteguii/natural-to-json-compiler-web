@@ -11,7 +11,7 @@ export class SemanticListener implements NaturalToJsonListener {
   private errors: string[] = [];
   private currentObject: string | null = null;
 
-  constructor(private symbolTable: SymbolTable) {}
+  constructor(private symbolTable: SymbolTable) { }
 
   getErrors(): string[] {
     return this.errors;
@@ -97,5 +97,10 @@ export class SemanticListener implements NaturalToJsonListener {
       );
     }
   }
+
+  visitTerminal() { }
+  visitErrorNode() { }
+  enterEveryRule() { }
+  exitEveryRule() { }
 }
 

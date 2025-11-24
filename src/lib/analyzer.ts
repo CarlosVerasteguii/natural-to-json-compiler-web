@@ -11,12 +11,20 @@ import { IRInstruction } from "./irTypes";
 import { optimizeIR } from "./optimizer";
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
+export interface TokenInfo {
+  type: string;
+  text: string;
+  line: number;
+}
+
 export interface AnalysisResult {
-  json: string | null;
+  json: any; // Return object, not string
   pythonCode: string | null;
   errors: string[];
-  tokens: string[];
-  ir: IRInstruction[];
+  tokens: TokenInfo[];
+  symbolTable: any;
+  rawIr: IRInstruction[];
+  optimizedIr: IRInstruction[];
 }
 
 const walk = (
@@ -32,7 +40,35 @@ export function analyze(input: string): AnalysisResult {
   const tokenStream = new CommonTokenStream(lexer);
   const parser = new NaturalToJsonParser(tokenStream);
 
+  // Add custom error listener to catch syntax errors
+  const syntaxErrors: string[] = [];
+  parser.removeErrorListeners();
+  parser.addErrorListener({
+    syntaxError: (recognizer, offendingSymbol, line, charPositionInLine, msg, e) => {
+      syntaxErrors.push(`Syntax Error at line ${line}:${charPositionInLine} - ${msg}`);
+    }
+  });
+
   const tree = parser.programa();
+
+  // Extract tokens with details
+  const tokens: TokenInfo[] = tokenStream.getTokens().map((t) => ({
+    type: NaturalToJsonLexer.VOCABULARY.getSymbolicName(t.type) || "UNK",
+    text: t.text || "",
+    line: t.line,
+  })).filter(t => t.type !== "EOF");
+
+  if (syntaxErrors.length > 0) {
+    return {
+      json: null,
+      pythonCode: null,
+      errors: syntaxErrors,
+      tokens,
+      symbolTable: {},
+      rawIr: [],
+      optimizedIr: [],
+    };
+  }
 
   const symbolTable = new SymbolTable();
   const semanticListener = new SemanticListener(symbolTable);
@@ -41,22 +77,15 @@ export function analyze(input: string): AnalysisResult {
 
   const semanticErrors = semanticListener.getErrors();
 
-  const tokens = tokenStream
-    .getTokens()
-    .filter((t) => t.text && t.text !== "<EOF>")
-    .map((t) => {
-      const name =
-        NaturalToJsonLexer.VOCABULARY.getSymbolicName(t.type) ?? "UNK";
-      return `[${name}] '${t.text}'`;
-    });
-
   if (semanticErrors.length > 0) {
     return {
       json: null,
       pythonCode: null,
       errors: semanticErrors,
       tokens,
-      ir: [],
+      symbolTable: symbolTable.getSymbols(), // Expose partial symbol table even on error
+      rawIr: [],
+      optimizedIr: [],
     };
   }
 
@@ -69,13 +98,15 @@ export function analyze(input: string): AnalysisResult {
   const rawIR = irBuilder.getInstructions();
   const optimizedIR = optimizeIR(rawIR);
   const pythonCode = generatePythonFromIR(optimizedIR);
-  const jsonString = JSON.stringify(jsonBuilder.getResult(), null, 2);
+  const jsonResult = jsonBuilder.getResult();
 
   return {
-    json: jsonString,
+    json: jsonResult,
     pythonCode,
     errors: [],
     tokens,
-    ir: optimizedIR,
+    symbolTable: symbolTable.getSymbols(),
+    rawIr: rawIR,
+    optimizedIr: optimizedIR,
   };
 }
