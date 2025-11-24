@@ -16,9 +16,6 @@ grammar NaturalToJson;
  * Genera un parser y lexer en Python 3.
  */
 
-options {
-    language=Python3;
-}
 
 // --- REGLAS SINTÁCTICAS ---
 
