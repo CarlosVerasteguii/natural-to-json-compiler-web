@@ -8,11 +8,12 @@ import { JsonBuilderListener } from "./JsonBuilderListener";
 import { IRBuilderListener } from "./IRBuilderListener";
 import { generatePythonFromIR } from "./codegen";
 import { IRInstruction } from "./irTypes";
+import { optimizeIR } from "./optimizer";
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
 export interface AnalysisResult {
   json: string | null;
-  python: string | null;
+  pythonCode: string | null;
   errors: string[];
   tokens: string[];
   ir: IRInstruction[];
@@ -52,7 +53,7 @@ export function analyze(input: string): AnalysisResult {
   if (semanticErrors.length > 0) {
     return {
       json: null,
-      python: null,
+      pythonCode: null,
       errors: semanticErrors,
       tokens,
       ir: [],
@@ -65,15 +66,16 @@ export function analyze(input: string): AnalysisResult {
   const irBuilder = new IRBuilderListener();
   walk(irBuilder, tree);
 
-  const ir = irBuilder.getInstructions();
-  const pythonCode = generatePythonFromIR(ir);
+  const rawIR = irBuilder.getInstructions();
+  const optimizedIR = optimizeIR(rawIR);
+  const pythonCode = generatePythonFromIR(optimizedIR);
   const jsonString = JSON.stringify(jsonBuilder.getResult(), null, 2);
 
   return {
     json: jsonString,
-    python: pythonCode,
+    pythonCode,
     errors: [],
     tokens,
-    ir,
+    ir: optimizedIR,
   };
 }

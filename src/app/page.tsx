@@ -61,7 +61,16 @@ export default function Home() {
           <section>
             <h2 className="text-xl font-semibold mb-2">Codigo Python</h2>
             <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 overflow-auto">
-              {result.python ?? '—'}
+              {result.pythonCode ?? '-'}
+            </pre>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold mb-2">IR Optimizada</h2>
+            <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 overflow-auto">
+              {result.ir.length > 0
+                ? JSON.stringify(result.ir, null, 2)
+                : '-'}
             </pre>
           </section>
         </div>
