@@ -12,6 +12,12 @@ export interface CompilationResult {
     optimizedIr: any[];
     output: any; // The final JSON
     errors: string[];
+    stats?: {
+        executionTime: number;
+        tokenCount: number;
+        errorCount: number;
+        instructionCount: number;
+    };
 }
 
 interface CompilerContextType {

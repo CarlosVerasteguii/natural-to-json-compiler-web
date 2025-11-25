@@ -10,6 +10,7 @@ import { generatePythonFromIR } from "./codegen";
 import { IRInstruction } from "./irTypes";
 import { optimizeIR } from "./optimizer";
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
+import { ParseTreeBuilderListener } from "./ParseTreeBuilderListener";
 
 export interface TokenInfo {
   type: string;
@@ -25,6 +26,13 @@ export interface AnalysisResult {
   symbolTable: any;
   rawIr: IRInstruction[];
   optimizedIr: IRInstruction[];
+  parseTree: any;
+  stats: {
+    executionTime: number;
+    tokenCount: number;
+    errorCount: number;
+    instructionCount: number;
+  };
 }
 
 const walk = (
@@ -35,6 +43,7 @@ const walk = (
 };
 
 export function analyze(input: string): AnalysisResult {
+  const startTime = performance.now();
   const chars = CharStreams.fromString(input);
   const lexer = new NaturalToJsonLexer(chars);
   const tokenStream = new CommonTokenStream(lexer);
@@ -67,6 +76,13 @@ export function analyze(input: string): AnalysisResult {
       symbolTable: {},
       rawIr: [],
       optimizedIr: [],
+      parseTree: null,
+      stats: {
+        executionTime: performance.now() - startTime,
+        tokenCount: tokens.length,
+        errorCount: syntaxErrors.length,
+        instructionCount: 0
+      }
     };
   }
 
@@ -86,6 +102,13 @@ export function analyze(input: string): AnalysisResult {
       symbolTable: symbolTable.getSymbols(), // Expose partial symbol table even on error
       rawIr: [],
       optimizedIr: [],
+      parseTree: null,
+      stats: {
+        executionTime: performance.now() - startTime,
+        tokenCount: tokens.length,
+        errorCount: semanticErrors.length,
+        instructionCount: 0
+      }
     };
   }
 
@@ -94,6 +117,10 @@ export function analyze(input: string): AnalysisResult {
 
   const irBuilder = new IRBuilderListener();
   walk(irBuilder, tree);
+
+  // Build Parse Tree for UI
+  const treeBuilder = new ParseTreeBuilderListener();
+  walk(treeBuilder, tree);
 
   const rawIR = irBuilder.getInstructions();
   const optimizedIR = optimizeIR(rawIR);
@@ -108,5 +135,12 @@ export function analyze(input: string): AnalysisResult {
     symbolTable: symbolTable.getSymbols(),
     rawIr: rawIR,
     optimizedIr: optimizedIR,
+    parseTree: treeBuilder.getResult(),
+    stats: {
+      executionTime: performance.now() - startTime,
+      tokenCount: tokens.length,
+      errorCount: 0,
+      instructionCount: optimizedIR.length
+    }
   };
 }

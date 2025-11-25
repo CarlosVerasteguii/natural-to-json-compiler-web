@@ -2,8 +2,10 @@
 
 import React from 'react';
 import CodeEditor from '@/components/Studio/CodeEditor';
-import JsonViewer from '@/components/Studio/JsonViewer';
+import OutputPanel from '@/components/Studio/OutputPanel';
 import ErrorPanel from '@/components/Studio/ErrorPanel';
+import StatusBar from '@/components/Studio/StatusBar';
+import ResizableLayout from '@/components/Studio/ResizableLayout';
 import { useCompiler } from '@/context/CompilerContext';
 import { analyze } from '@/lib/analyzer';
 import { motion } from 'framer-motion';
@@ -22,23 +24,25 @@ export default function Home() {
 
       setCompilationResult({
         tokens: result.tokens,
-        parseTree: {},
+        parseTree: result.parseTree,
         symbolTable: result.symbolTable,
         ir: result.rawIr,
         optimizedIr: result.optimizedIr,
         output: result.json,
-        errors: result.errors
+        errors: result.errors,
+        stats: result.stats
       });
     } catch (e) {
       console.error("Compilation failed:", e);
       setCompilationResult({
         tokens: [],
-        parseTree: {},
+        parseTree: null,
         symbolTable: {},
         ir: [],
         optimizedIr: [],
         output: null,
-        errors: ["Internal Compiler Error: " + (e as Error).message]
+        errors: ["Internal Compiler Error: " + (e as Error).message],
+        stats: { executionTime: 0, tokenCount: 0, errorCount: 1, instructionCount: 0 }
       });
     } finally {
       setIsCompiling(false);
@@ -46,15 +50,15 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] bg-slate-950 overflow-hidden">
+    <div className="flex flex-col h-screen bg-slate-950 overflow-hidden">
       {/* Toolbar */}
-      <div className="bg-slate-900/50 border-b border-slate-800 p-4 flex items-center justify-between backdrop-blur-sm z-10">
+      <div className="bg-slate-900/50 border-b border-slate-800 p-3 flex items-center justify-between backdrop-blur-sm z-10 h-14">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-2">
             <div className="bg-blue-600 p-1.5 rounded-lg shadow-lg shadow-blue-900/50">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
             </div>
-            <h1 className="text-lg font-bold text-white tracking-tight">Compiler Studio</h1>
+            <h1 className="text-lg font-bold text-white tracking-tight">Compiler Studio <span className="text-xs font-normal text-slate-500 ml-2 border border-slate-800 px-1.5 py-0.5 rounded">PRO</span></h1>
           </div>
 
           <div className="h-6 w-px bg-slate-800"></div>
@@ -64,7 +68,7 @@ export default function Home() {
             whileTap={{ scale: 0.98 }}
             onClick={handleCompile}
             disabled={isCompiling}
-            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all flex items-center shadow-lg ${isCompiling
+            className={`px-6 py-1.5 rounded-lg font-bold text-sm transition-all flex items-center shadow-lg ${isCompiling
               ? 'bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-700'
               : 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-blue-900/30 border border-blue-400/20'
               }`}
@@ -83,38 +87,44 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Ejecutar Compilador
+                Ejecutar
               </>
             )}
           </motion.button>
         </div>
         <div className="text-xs text-slate-500 font-mono bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
-          Ctrl + Enter para ejecutar
+          Ctrl + Enter
         </div>
       </div>
 
-      {/* Main Workspace */}
-      <div className="flex-grow flex p-6 gap-6 overflow-hidden">
-        {/* Left: Editor */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="w-1/2 flex flex-col"
-        >
-          <CodeEditor />
-          <ErrorPanel />
-        </motion.div>
-
-        {/* Right: Output */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-          className="w-1/2 flex flex-col"
-        >
-          <JsonViewer />
-        </motion.div>
+      {/* Main Workspace with Resizable Layout */}
+      <div className="flex-grow overflow-hidden relative">
+        <ResizableLayout
+          left={
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="h-full flex flex-col"
+            >
+              <CodeEditor />
+              <ErrorPanel />
+            </motion.div>
+          }
+          right={
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="h-full flex flex-col"
+            >
+              <OutputPanel />
+            </motion.div>
+          }
+        />
       </div>
+
+      {/* Status Bar */}
+      <StatusBar />
     </div>
   );
 }
