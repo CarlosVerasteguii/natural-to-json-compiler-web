@@ -7,46 +7,13 @@ import ErrorPanel from '@/components/Studio/ErrorPanel';
 import StatusBar from '@/components/Studio/StatusBar';
 import ResizableLayout from '@/components/Studio/ResizableLayout';
 import { useCompiler } from '@/context/CompilerContext';
-import { analyze } from '@/lib/analyzer';
 import { motion } from 'framer-motion';
 
 export default function Home() {
-  const { sourceCode, setCompilationResult, setIsCompiling, isCompiling } = useCompiler();
+  const { runCompilation, isCompiling, compilationResult } = useCompiler();
 
-  const handleCompile = async () => {
-    setIsCompiling(true);
-
-    try {
-      // Small delay to allow UI to update and show animation
-      await new Promise(resolve => setTimeout(resolve, 600));
-
-      const result = analyze(sourceCode);
-
-      setCompilationResult({
-        tokens: result.tokens,
-        parseTree: result.parseTree,
-        symbolTable: result.symbolTable,
-        ir: result.rawIr,
-        optimizedIr: result.optimizedIr,
-        output: result.json,
-        errors: result.errors,
-        stats: result.stats
-      });
-    } catch (e) {
-      console.error("Compilation failed:", e);
-      setCompilationResult({
-        tokens: [],
-        parseTree: null,
-        symbolTable: {},
-        ir: [],
-        optimizedIr: [],
-        output: null,
-        errors: ["Internal Compiler Error: " + (e as Error).message],
-        stats: { executionTime: 0, tokenCount: 0, errorCount: 1, instructionCount: 0 }
-      });
-    } finally {
-      setIsCompiling(false);
-    }
+  const handleCompile = () => {
+    runCompilation();
   };
 
   return (
@@ -106,7 +73,7 @@ export default function Home() {
               animate={{ opacity: 1, x: 0 }}
               className="h-full flex flex-col"
             >
-              <CodeEditor />
+              <CodeEditor hasError={compilationResult?.errors && compilationResult.errors.length > 0} />
               <ErrorPanel />
             </motion.div>
           }

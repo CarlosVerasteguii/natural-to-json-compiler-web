@@ -19,14 +19,14 @@ export interface TokenInfo {
 }
 
 export interface AnalysisResult {
-  json: any; // Return object, not string
+  json: unknown; // Return object, not string
   pythonCode: string | null;
   errors: string[];
   tokens: TokenInfo[];
-  symbolTable: any;
+  symbolTable: unknown;
   rawIr: IRInstruction[];
   optimizedIr: IRInstruction[];
-  parseTree: any;
+  parseTree: unknown;
   stats: {
     executionTime: number;
     tokenCount: number;
@@ -53,7 +53,7 @@ export function analyze(input: string): AnalysisResult {
   const syntaxErrors: string[] = [];
   parser.removeErrorListeners();
   parser.addErrorListener({
-    syntaxError: (recognizer, offendingSymbol, line, charPositionInLine, msg, e) => {
+    syntaxError: (recognizer, offendingSymbol, line, charPositionInLine, msg) => {
       syntaxErrors.push(`Syntax Error at line ${line}:${charPositionInLine} - ${msg}`);
     }
   });

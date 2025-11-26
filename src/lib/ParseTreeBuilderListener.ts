@@ -33,7 +33,7 @@ export class ParseTreeBuilderListener implements NaturalToJsonListener {
         this.stack.push(node);
     }
 
-    exitEveryRule(ctx: ParserRuleContext) {
+    exitEveryRule() {
         this.stack.pop();
     }
 

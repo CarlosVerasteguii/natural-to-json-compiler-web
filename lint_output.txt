@@ -1,0 +1,19 @@
+
+> natural-to-json-compiler-web@0.1.0 lint
+> eslint
+
+
+C:\Users\carlo\OneDrive\Documentos\Coding2025\UAT\Producto integrador\natural-to-json-compiler-web\src\components\Learning\ConceptStepper.tsx
+  126:56  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  126:63  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\carlo\OneDrive\Documentos\Coding2025\UAT\Producto integrador\natural-to-json-compiler-web\src\components\Learning\Glossary.tsx
+  29:31  warning  'idx' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\carlo\OneDrive\Documentos\Coding2025\UAT\Producto integrador\natural-to-json-compiler-web\src\context\CompilerContext.tsx
+   9:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  10:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Ô£û 6 problems (5 errors, 1 warning)
+

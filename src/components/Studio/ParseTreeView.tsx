@@ -5,8 +5,15 @@ import { useCompiler } from '@/context/CompilerContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronDown, Circle, Box, AlertOctagon } from 'lucide-react';
 
+interface TreeNodeData {
+    name: string;
+    type: string;
+    children?: TreeNodeData[];
+    text?: string;
+}
+
 interface TreeNodeProps {
-    node: any;
+    node: TreeNodeData;
     depth?: number;
 }
 
@@ -51,7 +58,7 @@ const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        {node.children.map((child: any, index: number) => (
+                        {node.children?.map((child: TreeNodeData, index: number) => (
                             <TreeNode key={index} node={child} depth={depth + 1} />
                         ))}
                     </motion.div>
@@ -75,7 +82,7 @@ const ParseTreeView = () => {
 
     return (
         <div className="h-full overflow-auto custom-scrollbar p-4">
-            <TreeNode node={tree} />
+            <TreeNode node={tree as TreeNodeData} />
         </div>
     );
 };

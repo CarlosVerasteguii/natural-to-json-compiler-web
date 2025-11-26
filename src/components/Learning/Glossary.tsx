@@ -26,7 +26,7 @@ const terms = [
 const Glossary = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {terms.map((item, idx) => (
+            {terms.map((item) => (
                 <div
                     key={item.term}
                     className="group bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-blue-500/50 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/10"

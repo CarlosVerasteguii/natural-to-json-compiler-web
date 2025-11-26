@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useCompiler } from '@/context/CompilerContext';
+
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileJson, List, Network, BarChart2, Copy, Check } from 'lucide-react';
+import { FileJson, List, Network, BarChart2 } from 'lucide-react';
 import JsonViewer from '@/components/Studio/JsonViewer';
 import TokensView from '@/components/Studio/TokensView';
 import ParseTreeView from '@/components/Studio/ParseTreeView';
@@ -13,7 +13,7 @@ type Tab = 'json' | 'tokens' | 'tree' | 'stats';
 
 const OutputPanel = () => {
     const [activeTab, setActiveTab] = useState<Tab>('json');
-    const { compilationResult } = useCompiler();
+
 
     const tabs = [
         { id: 'json', label: 'JSON', icon: FileJson },

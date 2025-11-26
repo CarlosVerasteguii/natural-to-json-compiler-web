@@ -24,26 +24,7 @@ export async function POST(request: Request) {
     try {
         const { code, error } = await request.json();
 
-        const userContent = [
-            "Analiza el siguiente error en un lenguaje de programación simple (Natural-to-JSON).",
-            "",
-            "Código del estudiante:",
-            code,
-            "",
-            "Error reportado:",
-            error,
-            "",
-            "Responde SIEMPRE en el siguiente formato claro y muy sencillo:",
-            "",
-            "1) ¿Qué significa el error?",
-            "- Explicación en máximo 3 frases, usando lenguaje para principiantes.",
-            "",
-            "2) ¿Cómo lo puede corregir el estudiante?",
-            "- Indica pasos concretos para corregirlo.",
-            "",
-            "3) Ejemplo corregido",
-            "- Muestra un ejemplo de cómo se vería el código corregido.",
-        ].join("\n");
+
 
         let lastErrorMessage = "No se pudo obtener una respuesta válida de la IA.";
 
@@ -60,15 +41,26 @@ export async function POST(request: Request) {
                         messages: [
                             {
                                 role: "system",
-                                content: "Actúa como un profesor muy paciente de programación y compiladores. Explica como si hablaras con alguien que apenas está empezando. No uses jerga técnica innecesaria. Responde SIEMPRE en español neutral y sigue exactamente el formato solicitado por el usuario."
+                                content: "Eres un experto en compiladores y corrección de código. Tu tarea es analizar errores y devolver una respuesta estructurada en formato JSON. NO uses markdown. NO incluyas texto fuera del JSON."
                             },
                             {
                                 role: "user",
-                                content: userContent
+                                content: `Analiza el siguiente error en el código fuente.
+Código:
+${code}
+
+Error:
+${error}
+
+Responde ÚNICAMENTE con un objeto JSON válido con esta estructura exacta:
+{
+  "explanation": "Explicación breve y amigable del error y cómo solucionarlo (máximo 3 frases)",
+  "fixedCode": "El código completo corregido. Si el código es largo, devuelve solo la parte relevante corregida o el código completo si es breve."
+}`
                             }
                         ],
-                        max_tokens: 256,
-                        temperature: 0.4,
+                        max_tokens: 512,
+                        temperature: 0.2,
                     }),
                 });
 
@@ -78,23 +70,46 @@ export async function POST(request: Request) {
                     continue;
                 }
 
-                const result: any = await response.json();
+                interface OpenAIResponse {
+                    choices?: Array<{
+                        message?: { content?: string };
+                        delta?: { content?: string };
+                    }>;
+                }
+
+                const result = await response.json() as OpenAIResponse;
 
                 // Formato estilo OpenAI: { choices: [ { message: { content } } ] }
-                const content =
+                let content =
                     result?.choices?.[0]?.message?.content?.trim?.() ??
                     result?.choices?.[0]?.delta?.content?.trim?.();
 
                 if (content) {
-                    return NextResponse.json({
-                        explanation: content,
-                        modelUsed: modelId,
-                    });
+                    // Clean up markdown code blocks if present
+                    content = content.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+
+                    try {
+                        const parsed = JSON.parse(content);
+                        return NextResponse.json({
+                            explanation: parsed.explanation,
+                            fixedCode: parsed.fixedCode,
+                            modelUsed: modelId,
+                        });
+                    } catch {
+                        console.error("Failed to parse AI JSON:", content);
+                        // Fallback if not valid JSON
+                        return NextResponse.json({
+                            explanation: content, // Return raw content as explanation
+                            fixedCode: null,
+                            modelUsed: modelId,
+                        });
+                    }
                 }
 
                 lastErrorMessage = `Respuesta vacía o inválida de la IA para el modelo ${modelId}.`;
-            } catch (e: any) {
-                lastErrorMessage = `Error al consultar el modelo ${modelId}: ${e.message}`;
+            } catch (e: unknown) {
+                const errorMessage = e instanceof Error ? e.message : String(e);
+                lastErrorMessage = `Error al consultar el modelo ${modelId}: ${errorMessage}`;
                 continue;
             }
         }
@@ -103,7 +118,8 @@ export async function POST(request: Request) {
             { error: lastErrorMessage },
             { status: 500 }
         );
-    } catch (e: any) {
-        return NextResponse.json({ error: `Error del servidor: ${e.message}` }, { status: 500 });
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : String(e);
+        return NextResponse.json({ error: `Error del servidor: ${errorMessage}` }, { status: 500 });
     }
 }

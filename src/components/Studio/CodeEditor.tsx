@@ -2,9 +2,13 @@
 
 import React from 'react';
 import { useCompiler } from '@/context/CompilerContext';
-import { motion } from 'framer-motion';
 
-const CodeEditor = () => {
+
+interface CodeEditorProps {
+    hasError?: boolean;
+}
+
+const CodeEditor = ({ hasError = false }: CodeEditorProps) => {
     const { sourceCode, setSourceCode } = useCompiler();
 
     // Calculate line numbers
@@ -12,7 +16,10 @@ const CodeEditor = () => {
     const lines = Array.from({ length: Math.max(lineCount, 15) }, (_, i) => i + 1);
 
     return (
-        <div className="flex flex-col h-full bg-slate-900 rounded-xl overflow-hidden border border-slate-800 shadow-2xl relative group">
+        <div className={`flex flex-col h-full bg-slate-900 rounded-xl overflow-hidden border shadow-2xl transition-all duration-500 ${hasError
+            ? 'border-red-500/50 shadow-red-900/20'
+            : 'border-slate-800 focus-within:border-blue-500/50 focus-within:shadow-blue-900/20'
+            }`}>
             {/* Header */}
             <div className="bg-slate-950/80 backdrop-blur px-4 py-3 border-b border-slate-800 flex justify-between items-center">
                 <div className="flex items-center space-x-2">

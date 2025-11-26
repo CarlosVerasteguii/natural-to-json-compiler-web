@@ -123,7 +123,7 @@ const steps = [
                     <div className="flex items-center space-x-3 font-mono text-lg">
                         <span className="text-yellow-400">edad</span>
                         <span className="text-slate-500">=</span>
-                        <span className="text-red-400">"veinte"</span>
+                        <span className="text-red-400">&quot;veinte&quot;</span>
                     </div>
 
                     <div className="h-px bg-slate-800 w-full"></div>
@@ -160,8 +160,8 @@ const ConceptStepper = () => {
                         key={step.id}
                         onClick={() => setCurrentStep(idx)}
                         className={`flex-1 py-6 text-sm font-medium transition-all relative ${currentStep === idx
-                                ? 'text-blue-400'
-                                : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
+                            ? 'text-blue-400'
+                            : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
                             }`}
                     >
                         <span className="relative z-10">{step.title}</span>

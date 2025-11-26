@@ -17,47 +17,97 @@ const SymbolTableViewer = () => {
         );
     }
 
+    const getEntityStyle = (kind: string) => {
+        if (kind === 'objeto') return {
+            bg: 'bg-blue-900/20',
+            border: 'border-blue-500/30',
+            text: 'text-blue-300',
+            icon: '📦',
+            label: 'Objeto'
+        };
+        if (kind === 'lista') return {
+            bg: 'bg-purple-900/20',
+            border: 'border-purple-500/30',
+            text: 'text-purple-300',
+            icon: '📑',
+            label: 'Lista'
+        };
+        return {
+            bg: 'bg-slate-800',
+            border: 'border-slate-700',
+            text: 'text-slate-300',
+            icon: '❓',
+            label: kind
+        };
+    };
+
+    const renderMetadata = (meta: any) => {
+        if (!meta || Object.keys(meta).length === 0) {
+            return <span className="text-slate-600 italic text-xs">Sin propiedades definidas</span>;
+        }
+
+        return (
+            <div className="grid grid-cols-1 gap-1">
+                {Object.entries(meta).map(([key, value]) => (
+                    <div key={key} className="flex items-center justify-between text-xs bg-slate-950/50 px-2 py-1 rounded border border-slate-800/50">
+                        <span className="text-slate-300 font-medium">{key}</span>
+                        <span className={`font-mono text-[10px] px-1.5 rounded ${value === 'NUMBER' ? 'bg-orange-900/30 text-orange-300' :
+                                value === 'STRING' ? 'bg-green-900/30 text-green-300' :
+                                    value === 'BOOLEAN' ? 'bg-red-900/30 text-red-300' :
+                                        'bg-slate-800 text-slate-400'
+                            }`}>
+                            {String(value)}
+                        </span>
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
     return (
-        <div className="overflow-auto h-full p-6">
-            <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/50 shadow-2xl">
-                <table className="min-w-full text-sm text-left text-slate-300">
-                    <thead className="text-xs text-slate-400 uppercase bg-slate-900/80 backdrop-blur sticky top-0">
-                        <tr>
-                            <th className="px-6 py-4 font-bold tracking-wider">Nombre</th>
-                            <th className="px-6 py-4 font-bold tracking-wider">Tipo</th>
-                            <th className="px-6 py-4 font-bold tracking-wider">Categoría</th>
-                            <th className="px-6 py-4 font-bold tracking-wider">Valor Actual</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-800">
-                        {symbols.map((sym: any, idx) => (
-                            <motion.tr
-                                key={idx}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="hover:bg-slate-800/50 transition-colors group"
-                            >
-                                <td className="px-6 py-4 font-bold text-white font-mono group-hover:text-blue-400 transition-colors">
-                                    {sym.name}
-                                </td>
-                                <td className="px-6 py-4">
-                                    <span className="bg-yellow-900/30 text-yellow-400 border border-yellow-500/30 px-2 py-1 rounded text-xs font-mono">
-                                        {sym.type}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 text-slate-400">
-                                    {sym.category}
-                                </td>
-                                <td className="px-6 py-4 font-mono text-slate-300">
-                                    <div className="bg-slate-950 rounded px-2 py-1 inline-block border border-slate-800 max-w-[200px] truncate">
-                                        {JSON.stringify(sym.value)}
+        <div className="h-full p-6 overflow-auto custom-scrollbar">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {symbols.map((sym, idx) => {
+                    const style = getEntityStyle(sym.tipo_entidad);
+                    return (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: idx * 0.05 }}
+                            className={`
+                                relative overflow-hidden rounded-xl border ${style.border} ${style.bg}
+                                hover:shadow-lg hover:shadow-blue-900/10 transition-all group
+                            `}
+                        >
+                            {/* Card Header */}
+                            <div className="px-4 py-3 border-b border-slate-800/50 flex items-center justify-between bg-slate-900/30">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-xl">{style.icon}</span>
+                                    <div>
+                                        <h3 className={`font-bold ${style.text}`}>{sym.nombre}</h3>
+                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+                                            {style.label}
+                                        </span>
                                     </div>
-                                </td>
-                            </motion.tr>
-                        ))}
-                    </tbody>
-                </table>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-[10px] text-slate-500 font-mono">
+                                        L{sym.linea}:C{sym.columna}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Card Body (Metadata) */}
+                            <div className="p-4">
+                                <h4 className="text-[10px] uppercase tracking-wider text-slate-500 mb-2 font-semibold">
+                                    Propiedades & Tipos
+                                </h4>
+                                {renderMetadata(sym.metadatos)}
+                            </div>
+                        </motion.div>
+                    );
+                })}
             </div>
         </div>
     );
