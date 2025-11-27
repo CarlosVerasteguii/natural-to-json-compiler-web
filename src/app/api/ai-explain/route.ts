@@ -41,7 +41,14 @@ export async function POST(request: Request) {
                         messages: [
                             {
                                 role: "system",
-                                content: "Eres un experto en compiladores y corrección de código. Tu tarea es analizar errores y devolver una respuesta estructurada en formato JSON. NO uses markdown. NO incluyas texto fuera del JSON."
+                                content: `Eres un experto en el lenguaje "Natural a JSON". 
+REGLAS DEL LENGUAJE:
+1. Los booleanos SON "VERDADERO" o "FALSO". NUNCA uses "true" o "false".
+2. Las cadenas siempre usan comillas dobles: "texto".
+3. Las claves de objetos NO llevan comillas.
+4. Para listas usa: CREAR LISTA nombre CON ELEMENTOS valor1, valor2
+5. Los números decimales usan punto (ej: 3.14).
+6. Tu tarea es analizar errores y devolver una respuesta estructurada en formato JSON. NO uses markdown. NO incluyas texto fuera del JSON.`
                             },
                             {
                                 role: "user",
@@ -55,12 +62,12 @@ ${error}
 Responde ÚNICAMENTE con un objeto JSON válido con esta estructura exacta:
 {
   "explanation": "Explicación breve y amigable del error y cómo solucionarlo (máximo 3 frases)",
-  "fixedCode": "El código completo corregido. Si el código es largo, devuelve solo la parte relevante corregida o el código completo si es breve."
+  "fixedCode": "ÚNICAMENTE el código corregido. NO incluyas explicaciones ni texto adicional en este campo. Solo código."
 }`
                             }
                         ],
                         max_tokens: 512,
-                        temperature: 0.2,
+                        temperature: 0.1, // Lower temperature for more deterministic output
                     }),
                 });
 
@@ -85,8 +92,11 @@ Responde ÚNICAMENTE con un objeto JSON válido con esta estructura exacta:
                     result?.choices?.[0]?.delta?.content?.trim?.();
 
                 if (content) {
-                    // Clean up markdown code blocks if present
-                    content = content.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+                    // Try to extract JSON from code blocks or find the first { and last }
+                    const jsonMatch = content.match(/\{[\s\S]*\}/);
+                    if (jsonMatch) {
+                        content = jsonMatch[0];
+                    }
 
                     try {
                         const parsed = JSON.parse(content);
