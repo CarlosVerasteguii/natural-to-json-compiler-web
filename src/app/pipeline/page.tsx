@@ -8,6 +8,7 @@ import PipelineFlow from '@/components/Pipeline/PipelineFlow';
 import InfoCard from '@/components/Pipeline/InfoCard';
 import { useCompiler } from '@/context/CompilerContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PIPELINE_EXAMPLES } from '@/data/pipelineExamples';
 
 export default function PipelinePage() {
     const [activeTab, setActiveTab] = useState<'tokens' | 'symbols' | 'ir'>('tokens');
@@ -98,6 +99,31 @@ crear objeto config con debug: verdadero, debug: falso`;
                             </button>
                         ))}
                     </div>
+
+                    {/* Example Loader (Header) */}
+                    <div className="ml-4 relative group">
+                        <button className="flex items-center gap-2 px-3 py-1.5 bg-midnight-800 hover:bg-midnight-700 text-slate-300 rounded-lg border border-midnight-700 text-xs font-medium transition-colors">
+                            <span>📚</span>
+                            <span>Cargar Ejemplo</span>
+                        </button>
+                        <div className="absolute right-0 top-full pt-2 w-64 hidden group-hover:block z-50">
+                            <div className="bg-midnight-900 border border-midnight-700 rounded-xl shadow-xl overflow-hidden">
+                                {PIPELINE_EXAMPLES.map((ex) => (
+                                    <button
+                                        key={ex.id}
+                                        onClick={() => applyCodePatch(ex.code)}
+                                        className="w-full text-left px-4 py-3 hover:bg-midnight-800 transition-colors border-b border-midnight-800/50 last:border-0"
+                                    >
+                                        <div className="flex items-center gap-2 text-slate-200 font-bold text-xs mb-0.5">
+                                            <span>{ex.icon}</span>
+                                            {ex.label}
+                                        </div>
+                                        <div className="text-[10px] text-slate-500 line-clamp-1">{ex.description}</div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -124,21 +150,23 @@ crear objeto config con debug: verdadero, debug: falso`;
                                 <p className="text-slate-400 max-w-md mx-auto mb-8 leading-relaxed text-sm">
                                     La tubería está vacía. Escribe código en el Estudio o carga un ejemplo para visualizar el proceso de compilación.
                                 </p>
-                                <div className="flex gap-4 justify-center">
-                                    <button
-                                        onClick={loadBasicExample}
-                                        className="bg-midnight-800 hover:bg-midnight-700 text-slate-200 border border-midnight-700 px-5 py-2.5 rounded-lg font-medium text-sm transition-all shadow-lg hover:shadow-blue-900/20 flex items-center gap-2"
-                                    >
-                                        <span>✨</span>
-                                        Ejemplo Básico
-                                    </button>
-                                    <button
-                                        onClick={loadOptimizationExample}
-                                        className="bg-midnight-800 hover:bg-midnight-700 text-slate-200 border border-midnight-700 px-5 py-2.5 rounded-lg font-medium text-sm transition-all shadow-lg hover:shadow-purple-900/20 flex items-center gap-2"
-                                    >
-                                        <span>🚀</span>
-                                        Demo de Optimización
-                                    </button>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+                                    {PIPELINE_EXAMPLES.map((example) => (
+                                        <button
+                                            key={example.id}
+                                            onClick={() => applyCodePatch(example.code)}
+                                            className="bg-midnight-800 hover:bg-midnight-700 text-slate-200 border border-midnight-700 px-4 py-3 rounded-xl text-left transition-all shadow-lg hover:shadow-blue-900/20 group relative overflow-hidden"
+                                        >
+                                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            <div className="relative z-10 flex items-start gap-3">
+                                                <span className="text-2xl">{example.icon}</span>
+                                                <div>
+                                                    <div className="font-bold text-sm text-slate-200 mb-1">{example.label}</div>
+                                                    <div className="text-xs text-slate-500 leading-snug">{example.description}</div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    ))}
                                 </div>
                             </motion.div>
                         </div>
