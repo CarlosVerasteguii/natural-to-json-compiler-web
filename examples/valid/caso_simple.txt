@@ -1,0 +1,18 @@
+// =============================================================================
+// EJEMPLO: CASO SIMPLE - HOLA MUNDO
+// =============================================================================
+// DESCRIPCIÓN:
+// El ejemplo más básico posible. Muestra la sintaxis fundamental para crear
+// objetos y asignar propiedades.
+// =============================================================================
+
+// Definición de un objeto 'usuario' con tres propiedades básicas.
+// Nota:
+// - 'nombre' es STRING (comillas obligatorias)
+// - 'edad' es NUMBER (sin comillas)
+// - 'activo' es BOOLEAN (palabra reservada 'verdadero')
+
+crear objeto usuario con nombre:"Juan", edad:30, activo:verdadero
+
+// Definición de un segundo objeto independiente.
+crear objeto direccion con calle:"Av. Principal", numero:123

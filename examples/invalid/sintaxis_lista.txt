@@ -1,0 +1,19 @@
+// =============================================================================
+// PRUEBA DE ERROR: SINTAXIS DE LISTAS
+// =============================================================================
+// OBJETIVO:
+// Verificar que el parser detecte errores estructurales en la definición de listas.
+//
+// ERRORES ESPERADOS:
+// 1. "mismatched input": Cuando falta una palabra clave obligatoria.
+// 2. "extraneous input": Cuando hay caracteres inesperados (como dos puntos extra).
+// =============================================================================
+
+// ERROR 1: Falta la palabra clave obligatoria 'ELEMENTOS'
+// Sintaxis correcta: crear lista mi_lista con ELEMENTOS 1, 2, 3
+crear lista mi_lista con 1, 2, 3
+
+// ERROR 2: Uso incorrecto de dos puntos
+// La palabra clave 'ELEMENTOS' no es una propiedad, no lleva dos puntos.
+// Sintaxis correcta: ... con elementos 1, 2, 3
+crear lista otra_lista con elementos: 1, 2, 3

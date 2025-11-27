@@ -41,7 +41,7 @@ const SymbolTableViewer = () => {
         };
     };
 
-    const renderMetadata = (meta: any) => {
+    const renderMetadata = (meta: Record<string, unknown>) => {
         if (!meta || Object.keys(meta).length === 0) {
             return <span className="text-slate-600 italic text-xs">Sin propiedades definidas</span>;
         }
@@ -52,9 +52,9 @@ const SymbolTableViewer = () => {
                     <div key={key} className="flex items-center justify-between text-xs bg-slate-950/50 px-2 py-1 rounded border border-slate-800/50">
                         <span className="text-slate-300 font-medium">{key}</span>
                         <span className={`font-mono text-[10px] px-1.5 rounded ${value === 'NUMBER' ? 'bg-orange-900/30 text-orange-300' :
-                                value === 'STRING' ? 'bg-green-900/30 text-green-300' :
-                                    value === 'BOOLEAN' ? 'bg-red-900/30 text-red-300' :
-                                        'bg-slate-800 text-slate-400'
+                            value === 'STRING' ? 'bg-green-900/30 text-green-300' :
+                                value === 'BOOLEAN' ? 'bg-red-900/30 text-red-300' :
+                                    'bg-slate-800 text-slate-400'
                             }`}>
                             {String(value)}
                         </span>

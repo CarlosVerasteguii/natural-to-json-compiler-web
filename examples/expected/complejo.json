@@ -1,0 +1,17 @@
+{
+    "configuracion_global": {
+        "version": 1.5,
+        "modo_debug": true,
+        "autor": "Admin Sistema"
+    },
+    "metricas": {
+        "uptime": 99.9,
+        "errores_totales": 0,
+        "estado": "operativo"
+    },
+    "usuario_admin": {
+        "id": 1,
+        "acceso_total": true,
+        "rol": "superadmin"
+    }
+}

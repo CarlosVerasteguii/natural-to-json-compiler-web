@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Minus, Plus, FileDiff } from 'lucide-react';
+import { ArrowRight, FileDiff } from 'lucide-react';
 
 interface DiffViewerProps {
     original: string;

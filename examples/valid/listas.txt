@@ -1,0 +1,26 @@
+// =============================================================================
+// EJEMPLO: CREACIÓN DE LISTAS (ARRAYS)
+// =============================================================================
+// DESCRIPCIÓN:
+// Muestra cómo declarar colecciones de elementos. Las listas en este lenguaje
+// se traducen directamente a arrays JSON [ ... ].
+//
+// SINTAXIS:
+// crear lista <NOMBRE> con elementos <ITEM1>, <ITEM2>, ...
+// =============================================================================
+
+// CASO 1: Lista de Números Primos
+// Array simple de enteros.
+crear lista numeros_primos con elementos 2, 3, 5, 7, 11
+
+// CASO 2: Lista de Cadenas de Texto
+// Array de strings. Nota el uso obligatorio de comillas dobles.
+crear lista frutas con elementos "manzana", "banana", "cereza"
+
+// CASO 3: Lista de Booleanos
+// Array de valores lógicos.
+crear lista banderas con elementos verdadero, falso, verdadero
+
+// CASO 4: Lista Mixta (Heterogénea)
+// JSON permite arrays con tipos mezclados. El compilador también lo soporta.
+crear lista mixto con elementos 1, "dos", 3.0, falso

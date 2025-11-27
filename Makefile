@@ -1,0 +1,13 @@
+all: install build test
+
+install:
+	npm install
+
+build:
+	npm run build
+
+test:
+	npm run test
+
+clean:
+	rm -rf .next node_modules

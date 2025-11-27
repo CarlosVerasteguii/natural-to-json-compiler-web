@@ -39,7 +39,8 @@ export default function WelcomeTour() {
         // Check if user has seen the tour
         const hasSeenTour = localStorage.getItem('hasSeenTour');
         if (!hasSeenTour) {
-            setIsOpen(true);
+            // Use setTimeout to avoid synchronous state update warning
+            setTimeout(() => setIsOpen(true), 100);
         }
     }, []);
 

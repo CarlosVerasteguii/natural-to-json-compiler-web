@@ -1,0 +1,25 @@
+// =============================================================================
+// EJEMPLO: ESTRUCTURAS COMPLEJAS Y TIPOS MIXTOS
+// =============================================================================
+// DESCRIPCIÓN:
+// Este archivo demuestra la capacidad del compilador para manejar múltiples
+// definiciones de objetos en un solo bloque de código, utilizando una variedad
+// de tipos de datos soportados.
+//
+// CONCEPTOS CLAVE:
+// 1. Identificadores: Uso de 'snake_case' (ej. configuracion_global).
+// 2. Tipos Numéricos: Soporte para enteros (1) y decimales (1.5, 99.9).
+// 3. Booleanos: Uso de la palabra clave 'verdadero'.
+// =============================================================================
+
+// 1. Configuración del Sistema
+// Observa cómo mezclamos versiones (decimal), flags (booleano) y texto.
+crear objeto configuracion_global con version:1.5, modo_debug:verdadero, autor:"Admin Sistema"
+
+// 2. Métricas de Rendimiento
+// Aquí probamos la precisión de los números decimales.
+crear objeto metricas con uptime:99.9, errores_totales:0, estado:"operativo"
+
+// 3. Definición de Usuario
+// Un objeto estándar con identificador numérico y rol de texto.
+crear objeto usuario_admin con id:1, acceso_total:verdadero, rol:"superadmin"

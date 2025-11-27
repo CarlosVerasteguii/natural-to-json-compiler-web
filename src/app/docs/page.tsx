@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Menu, X, ChevronRight, ExternalLink } from 'lucide-react';
-import { docsData, DocSection } from './docsData';
+import { docsData } from './docsData';
 
 export default function DocsPage() {
     const [activeDocId, setActiveDocId] = useState<string>(docsData[0].id);

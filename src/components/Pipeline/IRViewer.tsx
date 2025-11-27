@@ -30,8 +30,8 @@ const IRViewer = () => {
         return { border: 'border-l-slate-500', bg: 'bg-slate-800', text: 'text-slate-300', icon: '🔧' };
     };
 
-    const formatArg = (arg: any) => {
-        if (typeof arg === 'string') return <span className="text-green-400">"{arg}"</span>;
+    const formatArg = (arg: unknown) => {
+        if (typeof arg === 'string') return <span className="text-green-400">&quot;{arg}&quot;</span>;
         if (typeof arg === 'number') return <span className="text-orange-400">{arg}</span>;
         if (typeof arg === 'boolean') return <span className="text-red-400">{arg ? 'verdadero' : 'falso'}</span>;
         return <span className="text-slate-400">{JSON.stringify(arg)}</span>;

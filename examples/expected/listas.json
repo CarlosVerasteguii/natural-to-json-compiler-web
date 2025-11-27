@@ -1,0 +1,25 @@
+{
+    "numeros_primos": [
+        2,
+        3,
+        5,
+        7,
+        11
+    ],
+    "frutas": [
+        "manzana",
+        "banana",
+        "cereza"
+    ],
+    "banderas": [
+        true,
+        false,
+        true
+    ],
+    "mixto": [
+        1,
+        "dos",
+        3.0,
+        false
+    ]
+}

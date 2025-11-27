@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import { useCompiler } from '@/context/CompilerContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TokenInfo } from '@/lib/analyzer';
 
 // Extracted TokenItem for individual logic
-const TokenItem = ({ token, index, totalTokens, getTokenStyle }: { token: any, index: number, totalTokens: number, getTokenStyle: (t: string) => any }) => {
+const TokenItem = ({ token, index, totalTokens, getTokenStyle }: { token: TokenInfo, index: number, totalTokens: number, getTokenStyle: (t: string) => { label: string, color: string, border: string, bg: string, desc: string } }) => {
     const [tooltipAlign, setTooltipAlign] = useState<'left' | 'center' | 'right'>('center');
     const itemRef = React.useRef<HTMLDivElement>(null);
 

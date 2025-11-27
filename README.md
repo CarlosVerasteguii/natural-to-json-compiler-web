@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Natural to JSON Compiler Web
 
-## Getting Started
+Un compilador completo que traduce lenguaje natural a formato JSON, implementando análisis semántico, generación de código intermedio, código final y optimización.
 
-First, run the development server:
+## Información del Curso
+
+- **Materia:** Compiladores 2
+- **Institución:** Universidad Autonoma de Tamaulipas
+- **Semestre:** Noveno semestre
+- **Profesor:** Dr. Dante Adolfo Muñoz Quintero
+
+## Integrantes del Equipo
+
+- **Carlos Verastegui Cruz**
+- **Roberto Chavez Lopez**
+
+## Estructura del Proyecto
+
+El proyecto sigue la siguiente estructura de directorios:
+
+- `src/`: Código fuente de la aplicación Next.js y lógica del compilador (`src/lib`).
+- `docs/`: Documentación técnica y de usuario.
+- `examples/`: Ejemplos de entrada/salida.
+  - `valid/`: Casos de prueba válidos.
+  - `invalid/`: Casos con errores intencionales.
+  - `expected/`: Salidas JSON esperadas.
+- `tests/`: Pruebas automatizadas (Unitarias y de Integración).
+- `lib/`: Librerías externas (Referencia).
+- `Makefile`: Script de construcción y automatización.
+
+## Requisitos y Dependencias
+
+- **Node.js**: v18 o superior.
+- **NPM**: Gestor de paquetes.
+- **Java**: Requerido si se necesita regenerar la gramática ANTLR (opcional para ejecución).
+
+## Instrucciones de Compilación y Ejecución
+
+### Usando Makefile (Recomendado)
+
+1. **Instalar dependencias:**
+
+   ```bash
+   make install
+   ```
+
+2. **Compilar el proyecto:**
+
+   ```bash
+   make build
+   ```
+
+3. **Ejecutar pruebas:**
+
+   ```bash
+   make test
+   ```
+
+### Ejecución en Desarrollo
+
+Para levantar el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación estará disponible en `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Ejemplos de Uso
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Entrada (Lenguaje Natural)
 
-## Learn More
+```text
+crear objeto usuario con nombre:"Juan", edad:25
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Salida (JSON)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```json
+{
+  "usuario": {
+    "nombre": "Juan",
+    "edad": 25
+  }
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Para más detalles, consulte el [Manual de Usuario](docs/Manual_Usuario.md).

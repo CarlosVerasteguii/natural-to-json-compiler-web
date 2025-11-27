@@ -1,10 +1,10 @@
 import React from 'react';
-import { Book, Code, Cpu, Layers, Terminal, Zap, FileJson, List, Network } from 'lucide-react';
+import { Book, Cpu, Zap, FileJson, List } from 'lucide-react';
 
 export type DocSection = {
     id: string;
     title: string;
-    icon: any;
+    icon: React.ReactNode;
     content: React.ReactNode;
 };
 
@@ -104,7 +104,7 @@ export const docsData: DocSection[] = [
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="p-4 bg-midnight-900 border border-midnight-800 rounded-xl hover:scale-[1.02] hover:shadow-lg hover:border-green-500/30 transition-all duration-300 cursor-default group">
                             <div className="text-green-400 font-bold mb-2 group-hover:text-green-300 transition-colors">Texto (String)</div>
-                            <code className="text-xs bg-midnight-950 p-1 rounded text-slate-400 group-hover:bg-midnight-900 transition-colors">"Hola Mundo"</code>
+                            <code className="text-xs bg-midnight-950 p-1 rounded text-slate-400 group-hover:bg-midnight-900 transition-colors">&quot;Hola Mundo&quot;</code>
                             <p className="text-xs text-slate-500 mt-2">Texto entre comillas dobles.</p>
                         </div>
                         <div className="p-4 bg-midnight-900 border border-midnight-800 rounded-xl hover:scale-[1.02] hover:shadow-lg hover:border-orange-500/30 transition-all duration-300 cursor-default group">

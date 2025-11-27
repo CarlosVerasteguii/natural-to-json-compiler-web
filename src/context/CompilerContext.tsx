@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 import { IRInstruction } from '@/lib/irTypes';
 import { TokenInfo } from '@/lib/analyzer';
 import { TreeNode } from '@/lib/ParseTreeBuilderListener';
@@ -42,13 +42,16 @@ const CompilerContext = createContext<CompilerContextType | undefined>(undefined
 import { analyze } from '@/lib/analyzer';
 
 export const CompilerProvider = ({ children }: { children: ReactNode }) => {
-    const [sourceCode, setSourceCode] = useState<string>('');
+    const [sourceCode, setSourceCode] = useState<string>(`CREAR OBJETO usuario CON
+    nombre: "Juan",
+    edad: 25,
+    activo: VERDADERO`);
     const [compilationResult, setCompilationResult] = useState<CompilationResult | null>(null);
     const [isCompiling, setIsCompiling] = useState(false);
 
     const [hoveredToken, setHoveredToken] = useState<TokenInfo | null>(null);
 
-    const runCompilation = async (codeToCompile?: string) => {
+    const runCompilation = useCallback(async (codeToCompile?: string) => {
         const code = codeToCompile ?? sourceCode;
         setIsCompiling(true);
 
@@ -83,13 +86,25 @@ export const CompilerProvider = ({ children }: { children: ReactNode }) => {
         } finally {
             setIsCompiling(false);
         }
-    };
+    }, [sourceCode]);
 
-    const applyCodePatch = (newCode: string) => {
+    const applyCodePatch = useCallback((newCode: string) => {
         setSourceCode(newCode);
         // Automatically re-compile with the new code
+        // We can't call runCompilation directly here if it depends on the updated sourceCode state immediately
+        // But since we pass newCode explicitly to runCompilation (if we modify it to accept it), it works.
+        // Actually runCompilation takes an argument.
+
+        // However, runCompilation depends on sourceCode. If we call it here, we should pass newCode.
+        // But runCompilation is memoized on sourceCode. 
+        // If we call it inside this callback, we need to make sure we don't create a circular dependency or stale closure issues.
+        // Ideally applyCodePatch shouldn't depend on runCompilation if runCompilation depends on sourceCode.
+        // But let's look at runCompilation signature: async (codeToCompile?: string)
+
+        // If we pass newCode, it uses that instead of sourceCode.
+        // So we can just call it. But we need to add runCompilation to dependency list.
         runCompilation(newCode);
-    };
+    }, [runCompilation]);
 
     return (
         <CompilerContext.Provider

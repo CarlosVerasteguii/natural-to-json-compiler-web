@@ -1,0 +1,11 @@
+{
+    "usuario": {
+        "nombre": "Juan",
+        "edad": 30,
+        "activo": true
+    },
+    "direccion": {
+        "calle": "Av. Principal",
+        "numero": 123
+    }
+}

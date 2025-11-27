@@ -1,0 +1,17 @@
+// =============================================================================
+// PRUEBA DE ERROR: VALIDACIÓN DE TIPOS SEMÁNTICOS
+// =============================================================================
+// OBJETIVO:
+// Verificar que el compilador haga cumplir las reglas de tipos para propiedades
+// especiales predefinidas (si las hubiera) o la sintaxis básica de valores.
+// =============================================================================
+
+// ERROR 1: String sin comillas
+// En este lenguaje, TODO texto debe estar entre comillas dobles.
+// 'Juan' sin comillas se interpreta como un identificador, no un valor.
+crear objeto usuario con nombre:Juan
+
+// ERROR 2: Tipo de dato incorrecto (Semántico)
+// Si la lógica de negocio espera un número para 'precio', recibir un string
+// debería generar un error (dependiendo de la implementación semántica).
+crear objeto producto con precio:"veinte"

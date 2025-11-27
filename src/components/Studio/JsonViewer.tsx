@@ -4,6 +4,39 @@ import React, { useState } from 'react';
 import { useCompiler } from '@/context/CompilerContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Better Highlighter using regex on the whole string
+const HighlightedJSON = ({ data }: { data: unknown }) => {
+    const jsonString = JSON.stringify(data, null, 2);
+
+    if (!jsonString) return <span className="text-slate-500">null</span>;
+
+    const highlighted = jsonString.replace(
+        /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+        (match) => {
+            let cls = 'text-orange-400'; // number
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'text-blue-400'; // key
+                } else {
+                    cls = 'text-green-400'; // string
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'text-purple-400'; // boolean
+            } else if (/null/.test(match)) {
+                cls = 'text-slate-500'; // null
+            }
+            return `<span class="${cls}">${match}</span>`;
+        }
+    );
+
+    return (
+        <pre
+            className="font-mono text-sm leading-relaxed whitespace-pre-wrap break-words"
+            dangerouslySetInnerHTML={{ __html: highlighted }}
+        />
+    );
+};
+
 interface JsonViewerProps {
     embedded?: boolean;
 }
@@ -28,34 +61,6 @@ const JsonViewer = ({ embedded = false }: JsonViewerProps) => {
             </div>
         );
     }
-
-    // Better Highlighter using regex on the whole string
-    const HighlightedJSON = ({ data }: { data: any }) => {
-        const jsonString = JSON.stringify(data, null, 2);
-
-        const html = jsonString.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
-            let cls = 'text-orange-300'; // number
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    cls = 'text-blue-300 font-bold'; // key
-                } else {
-                    cls = 'text-green-300'; // string
-                }
-            } else if (/true|false/.test(match)) {
-                cls = 'text-red-300 font-bold'; // boolean
-            } else if (/null/.test(match)) {
-                cls = 'text-slate-500 italic'; // null
-            }
-            return `<span class="${cls}">${match}</span>`;
-        });
-
-        return (
-            <pre
-                className="font-mono text-sm leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: html }}
-            />
-        );
-    };
 
     return (
         <div className={`flex flex-col h-full bg-midnight-950 rounded-xl overflow-hidden border border-midnight-800 shadow-2xl relative group ${embedded ? 'border-0 rounded-none shadow-none bg-transparent' : ''}`}>

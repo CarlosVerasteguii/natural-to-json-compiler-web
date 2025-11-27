@@ -1,0 +1,17 @@
+// =============================================================================
+// PRUEBA DE ERROR: TIPOS DE DATOS INVÁLIDOS
+// =============================================================================
+// OBJETIVO:
+// Verificar que el análisis semántico y léxico rechace valores que no corresponden
+// a los tipos permitidos (STRING, NUMBER, BOOLEAN).
+// =============================================================================
+
+// ERROR 1: Identificador como valor
+// El parser espera un STRING ("..."), un NUMERO o un BOOLEANO.
+// 'identificador_no_valido' se interpreta como un ID, lo cual no es un valor válido.
+crear objeto datos con id:identificador_no_valido
+
+// ERROR 2: Booleano mal escrito
+// Los únicos valores booleanos válidos son 'verdadero' y 'falso'.
+// 'verdura' se interpreta como un ID desconocido en este contexto.
+crear objeto config con activo:verdura
