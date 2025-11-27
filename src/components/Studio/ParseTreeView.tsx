@@ -30,7 +30,7 @@ const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
     return (
         <div className="select-none">
             <div
-                className={`flex items-center py-1 px-2 hover:bg-slate-800/50 rounded cursor-pointer transition-colors ${depth === 0 ? 'bg-slate-900/30 mb-1' : ''
+                className={`flex items-center py-1 px-2 hover:bg-midnight-800/50 rounded cursor-pointer transition-colors ${depth === 0 ? 'bg-midnight-900/30 mb-1' : ''
                     }`}
                 style={{ paddingLeft: `${depth * 16 + 8}px` }}
                 onClick={() => setIsExpanded(!isExpanded)}
@@ -45,7 +45,7 @@ const TreeNode = ({ node, depth = 0 }: TreeNodeProps) => {
                     {node.name}
                 </span>
                 {node.text && (
-                    <span className="ml-2 text-xs text-slate-500 bg-slate-950 px-1 rounded border border-slate-800">
+                    <span className="ml-2 text-xs text-slate-500 bg-midnight-950 px-1 rounded border border-midnight-800">
                         {node.text}
                     </span>
                 )}
@@ -75,7 +75,7 @@ const ParseTreeView = () => {
     if (!tree) {
         return (
             <div className="flex flex-col items-center justify-center h-full text-slate-500">
-                <p>No parse tree available.</p>
+                <p>No hay árbol de análisis disponible.</p>
             </div>
         );
     }

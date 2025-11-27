@@ -58,7 +58,7 @@ const TestRunner = ({ example }: TestRunnerProps) => {
                 } else {
                     setStatus('failure');
                     setOutput(JSON.stringify(result.json, null, 2));
-                    setError("Fallo de Prueba: Se esperaban errores pero la compilación fue exitosa.");
+                    setError("Prueba Fallida: Se esperaban errores pero la compilación fue exitosa.");
                 }
             }
         } catch (e) {
@@ -68,12 +68,12 @@ const TestRunner = ({ example }: TestRunnerProps) => {
     };
 
     return (
-        <div className="flex-grow flex flex-col h-full bg-slate-950 relative overflow-hidden">
+        <div className="flex-grow flex flex-col h-full bg-midnight-950 relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-[0.03] bg-[url('/grid-pattern.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
 
             {/* Header */}
-            <div className="p-8 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm z-10 flex justify-between items-center">
+            <div className="p-8 border-b border-midnight-800 bg-midnight-900/50 backdrop-blur-sm z-10 flex justify-between items-center">
                 <div>
                     <motion.div
                         key={example.name}
@@ -84,7 +84,7 @@ const TestRunner = ({ example }: TestRunnerProps) => {
                         <div className={`p-2 rounded-lg ${example.type === 'valid' ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
                             {example.type === 'valid' ? <CheckCircle2 className="w-6 h-6" /> : <AlertCircle className="w-6 h-6" />}
                         </div>
-                        <h2 className="text-2xl font-black text-white tracking-tight">
+                        <h2 className="text-2xl font-black text-slate-100 tracking-tight">
                             {example.name}
                         </h2>
                     </motion.div>
@@ -99,7 +99,7 @@ const TestRunner = ({ example }: TestRunnerProps) => {
                     className={`
                         px-8 py-4 rounded-2xl font-bold text-sm shadow-xl transition-all flex items-center space-x-3
                         ${status === 'running'
-                            ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                            ? 'bg-midnight-800 text-slate-500 cursor-not-allowed border border-midnight-700'
                             : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border border-blue-500/50'
                         }
                     `}
@@ -122,13 +122,13 @@ const TestRunner = ({ example }: TestRunnerProps) => {
             <div className="flex-grow p-6 overflow-hidden z-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                 {/* Input Panel */}
-                <div className="flex flex-col h-full bg-slate-900/50 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl group hover:border-slate-700 transition-colors">
-                    <div className="px-4 py-3 border-b border-slate-800 bg-slate-950/50 flex items-center space-x-2">
+                <div className="flex flex-col h-full bg-midnight-900/50 rounded-2xl border border-midnight-800 overflow-hidden shadow-2xl group hover:border-midnight-700 transition-colors">
+                    <div className="px-4 py-3 border-b border-midnight-800 bg-midnight-950/50 flex items-center space-x-2">
                         <Code2 className="w-4 h-4 text-slate-500" />
                         <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Código Fuente</span>
                     </div>
                     <div className="flex-grow p-6 font-mono text-sm text-slate-300 overflow-auto custom-scrollbar relative">
-                        <div className="absolute top-0 left-0 w-8 h-full bg-slate-900/50 border-r border-slate-800/50 flex flex-col items-center pt-6 text-slate-700 select-none text-xs font-mono">
+                        <div className="absolute top-0 left-0 w-8 h-full bg-midnight-900/50 border-r border-midnight-800/50 flex flex-col items-center pt-6 text-slate-600 select-none text-xs font-mono">
                             {example.code.split('\n').map((_, i) => <div key={i} className="mb-0.5">{i + 1}</div>)}
                         </div>
                         <pre className="pl-10 whitespace-pre-wrap leading-relaxed">
@@ -138,8 +138,8 @@ const TestRunner = ({ example }: TestRunnerProps) => {
                 </div>
 
                 {/* Output Panel */}
-                <div className="flex flex-col h-full bg-black/40 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl relative">
-                    <div className="px-4 py-3 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between">
+                <div className="flex flex-col h-full bg-black/40 rounded-2xl border border-midnight-800 overflow-hidden shadow-2xl relative">
+                    <div className="px-4 py-3 border-b border-midnight-800 bg-midnight-950/80 flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                             <Terminal className="w-4 h-4 text-slate-500" />
                             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Consola de Salida</span>
@@ -216,9 +216,9 @@ const TestRunner = ({ example }: TestRunnerProps) => {
                                     {output && (
                                         <div className="space-y-2">
                                             <div className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center">
-                                                <FileJson className="w-3 h-3 mr-2" /> Output JSON
+                                                <FileJson className="w-3 h-3 mr-2" /> Salida JSON
                                             </div>
-                                            <pre className="text-green-400 bg-slate-900/50 p-4 rounded-lg border border-slate-800/50 overflow-x-auto">
+                                            <pre className="text-green-400 bg-midnight-900/50 p-4 rounded-lg border border-midnight-800/50 overflow-x-auto">
                                                 {output}
                                             </pre>
                                         </div>
@@ -229,7 +229,7 @@ const TestRunner = ({ example }: TestRunnerProps) => {
                                             <div className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center">
                                                 <AlertCircle className="w-3 h-3 mr-2" /> Detalles del Reporte
                                             </div>
-                                            <pre className={`p-4 rounded-lg border overflow-x-auto ${status === 'success' ? 'text-slate-300 bg-slate-900/50 border-slate-800' : 'text-red-400 bg-red-950/10 border-red-900/20'
+                                            <pre className={`p-4 rounded-lg border overflow-x-auto ${status === 'success' ? 'text-slate-300 bg-midnight-900/50 border-midnight-800' : 'text-red-400 bg-red-950/10 border-red-900/20'
                                                 }`}>
                                                 {error}
                                             </pre>

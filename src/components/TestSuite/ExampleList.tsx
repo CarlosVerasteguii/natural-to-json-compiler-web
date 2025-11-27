@@ -12,14 +12,14 @@ interface ExampleListProps {
 
 const ExampleList = ({ onSelect, selectedId }: ExampleListProps) => {
     return (
-        <div className="w-80 bg-slate-950 border-r border-slate-800 flex flex-col h-full overflow-hidden relative z-20 shadow-2xl">
+        <div className="w-80 bg-midnight-950 border-r border-midnight-800 flex flex-col h-full overflow-hidden relative z-20 shadow-2xl">
             {/* Header */}
-            <div className="p-6 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-10">
+            <div className="p-6 border-b border-midnight-800 bg-midnight-900/80 backdrop-blur-md sticky top-0 z-10">
                 <div className="flex items-center space-x-3 mb-1">
                     <div className="p-2 bg-blue-500/10 rounded-lg border border-blue-500/20 text-blue-400">
                         <Beaker className="w-5 h-5" />
                     </div>
-                    <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                    <h2 className="text-sm font-bold text-slate-100 uppercase tracking-wider">
                         Banco de Pruebas
                     </h2>
                 </div>
@@ -44,8 +44,8 @@ const ExampleList = ({ onSelect, selectedId }: ExampleListProps) => {
                             className={`
                                 w-full text-left p-4 rounded-xl text-sm transition-all duration-300 border relative overflow-hidden group
                                 ${isSelected
-                                    ? 'bg-slate-900 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.15)]'
-                                    : 'bg-slate-900/40 border-slate-800 hover:bg-slate-800 hover:border-slate-700'
+                                    ? 'bg-midnight-900 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.15)]'
+                                    : 'bg-midnight-900/40 border-midnight-800 hover:bg-midnight-800 hover:border-midnight-700'
                                 }
                             `}
                         >
@@ -80,7 +80,7 @@ const ExampleList = ({ onSelect, selectedId }: ExampleListProps) => {
                                         : 'bg-red-500/10 text-red-400 border-red-500/20'
                                     }
                                 `}>
-                                    {isValid ? 'Válido' : 'Error Esp.'}
+                                    {isValid ? 'Válido' : 'Error Esperado'}
                                 </span>
                                 {isSelected && (
                                     <motion.div

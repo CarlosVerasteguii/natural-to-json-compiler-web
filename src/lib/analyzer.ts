@@ -16,6 +16,8 @@ export interface TokenInfo {
   type: string;
   text: string;
   line: number;
+  startIndex: number;
+  stopIndex: number;
 }
 
 export interface AnalysisResult {
@@ -65,6 +67,8 @@ export function analyze(input: string): AnalysisResult {
     type: NaturalToJsonLexer.VOCABULARY.getSymbolicName(t.type) || "UNK",
     text: t.text || "",
     line: t.line,
+    startIndex: t.startIndex,
+    stopIndex: t.stopIndex,
   })).filter(t => t.type !== "EOF");
 
   if (syntaxErrors.length > 0) {

@@ -77,7 +77,7 @@ const IRViewer = () => {
                 <div className="p-4 border-b border-slate-800/50 bg-slate-900/20">
                     <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
                         <span className="w-2 h-2 bg-slate-500 rounded-full"></span>
-                        Raw IR (Original)
+                        RI Sin Procesar (Original)
                     </h3>
                     <p className="text-[10px] text-slate-500 mt-1">Traducción directa del código fuente.</p>
                 </div>
@@ -93,7 +93,7 @@ const IRViewer = () => {
                 <div className="p-4 border-b border-slate-800/50 bg-slate-900/20">
                     <h3 className="text-sm font-bold text-green-400 uppercase tracking-wider flex items-center gap-2">
                         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                        Optimized IR (Final)
+                        RI Optimizado (Final)
                     </h3>
                     <p className="text-[10px] text-slate-500 mt-1">Código limpio y eficiente listo para generar.</p>
                 </div>

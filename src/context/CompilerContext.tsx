@@ -33,6 +33,8 @@ interface CompilerContextType {
     setIsCompiling: (isCompiling: boolean) => void;
     applyCodePatch: (newCode: string) => void;
     runCompilation: (codeToCompile?: string) => Promise<void>;
+    hoveredToken: TokenInfo | null;
+    setHoveredToken: (token: TokenInfo | null) => void;
 }
 
 const CompilerContext = createContext<CompilerContextType | undefined>(undefined);
@@ -43,6 +45,8 @@ export const CompilerProvider = ({ children }: { children: ReactNode }) => {
     const [sourceCode, setSourceCode] = useState<string>('');
     const [compilationResult, setCompilationResult] = useState<CompilationResult | null>(null);
     const [isCompiling, setIsCompiling] = useState(false);
+
+    const [hoveredToken, setHoveredToken] = useState<TokenInfo | null>(null);
 
     const runCompilation = async (codeToCompile?: string) => {
         const code = codeToCompile ?? sourceCode;
@@ -97,7 +101,9 @@ export const CompilerProvider = ({ children }: { children: ReactNode }) => {
                 isCompiling,
                 setIsCompiling,
                 applyCodePatch,
-                runCompilation
+                runCompilation,
+                hoveredToken,
+                setHoveredToken
             }}
         >
             {children}

@@ -14,7 +14,7 @@ interface StatCardProps {
 
 const StatCard = ({ icon: Icon, label, value, color }: StatCardProps) => (
     <div className={`
-        relative overflow-hidden bg-slate-950 border ${color.border} p-5 rounded-2xl 
+        relative overflow-hidden bg-midnight-950 border ${color.border} p-5 rounded-2xl 
         flex items-center space-x-5 group hover:shadow-lg transition-all duration-300
     `}>
         {/* Glow Effect */}
@@ -37,7 +37,7 @@ const StatsView = () => {
     if (!stats) {
         return (
             <div className="flex flex-col items-center justify-center h-full text-slate-500">
-                <p>No statistics available.</p>
+                <p>No hay estadísticas disponibles.</p>
             </div>
         );
     }
@@ -47,13 +47,13 @@ const StatsView = () => {
             <div className="grid grid-cols-2 gap-4">
                 <StatCard
                     icon={Clock}
-                    label="Tiempo Ejecución"
+                    label="Tiempo de Ejecución"
                     value={`${stats.executionTime.toFixed(2)}ms`}
                     color={{ bg: 'bg-blue-500', text: 'text-blue-400', border: 'border-blue-500/20', glow: 'bg-blue-500' }}
                 />
                 <StatCard
                     icon={FileText}
-                    label="Total Tokens"
+                    label="Tokens Totales"
                     value={stats.tokenCount}
                     color={{ bg: 'bg-purple-500', text: 'text-purple-400', border: 'border-purple-500/20', glow: 'bg-purple-500' }}
                 />
@@ -72,16 +72,16 @@ const StatsView = () => {
             </div>
 
             {/* Detailed Breakdown */}
-            <div className="mt-8 bg-slate-900/30 border border-slate-800/50 rounded-2xl p-6">
+            <div className="mt-8 bg-midnight-900/30 border border-midnight-800/50 rounded-2xl p-6">
                 <h3 className="text-slate-400 font-bold mb-6 text-sm uppercase tracking-wider">Análisis de Rendimiento</h3>
 
                 <div className="space-y-4">
                     <div>
                         <div className="flex justify-between text-xs text-slate-400 mb-2">
-                            <span>Análisis Léxico & Sintáctico</span>
+                            <span>Análisis Léxico y Sintáctico</span>
                             <span className="text-blue-400">40%</span>
                         </div>
-                        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                        <div className="h-2 bg-midnight-800 rounded-full overflow-hidden">
                             <div className="h-full bg-blue-500 w-[40%] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                         </div>
                     </div>
@@ -91,7 +91,7 @@ const StatsView = () => {
                             <span>Optimización IR</span>
                             <span className="text-purple-400">35%</span>
                         </div>
-                        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                        <div className="h-2 bg-midnight-800 rounded-full overflow-hidden">
                             <div className="h-full bg-purple-500 w-[35%] shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
                         </div>
                     </div>
@@ -101,7 +101,7 @@ const StatsView = () => {
                             <span>Generación de Código</span>
                             <span className="text-green-400">25%</span>
                         </div>
-                        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                        <div className="h-2 bg-midnight-800 rounded-full overflow-hidden">
                             <div className="h-full bg-green-500 w-[25%] shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
                         </div>
                     </div>

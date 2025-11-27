@@ -18,21 +18,21 @@ const OutputPanel = () => {
     const tabs = [
         { id: 'json', label: 'JSON', icon: FileJson },
         { id: 'tokens', label: 'Tokens', icon: List },
-        { id: 'tree', label: 'Parse Tree', icon: Network },
-        { id: 'stats', label: 'Stats', icon: BarChart2 },
+        { id: 'tree', label: 'Árbol de Análisis', icon: Network },
+        { id: 'stats', label: 'Estadísticas', icon: BarChart2 },
     ];
 
     return (
-        <div className="flex flex-col h-full bg-slate-900/50 backdrop-blur-xl rounded-xl border border-slate-800 overflow-hidden shadow-2xl">
+        <div className="flex flex-col h-full bg-midnight-900/50 backdrop-blur-xl rounded-xl border border-midnight-800 overflow-hidden shadow-2xl">
             {/* Tab Header */}
-            <div className="flex items-center px-2 pt-2 border-b border-slate-800 bg-slate-950/50">
+            <div className="flex items-center px-2 pt-2 border-b border-midnight-800 bg-midnight-950/50">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as Tab)}
                         className={`relative px-4 py-2.5 text-sm font-medium transition-colors flex items-center space-x-2 rounded-t-lg ${activeTab === tab.id
-                            ? 'text-blue-400 bg-slate-900/50'
-                            : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/30'
+                            ? 'text-blue-400 bg-midnight-900/50'
+                            : 'text-slate-500 hover:text-slate-300 hover:bg-midnight-800/30'
                             }`}
                     >
                         <tab.icon className="w-4 h-4" />
@@ -48,7 +48,7 @@ const OutputPanel = () => {
             </div>
 
             {/* Content Area */}
-            <div className="flex-grow relative overflow-hidden bg-slate-900/30">
+            <div className="flex-grow relative overflow-hidden bg-midnight-900/30">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeTab}

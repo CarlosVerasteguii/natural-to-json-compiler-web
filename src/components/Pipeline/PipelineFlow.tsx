@@ -10,7 +10,7 @@ export default function PipelineFlow({ currentStep }: PipelineFlowProps) {
         { id: 'source', label: 'Texto', icon: '📝' },
         { id: 'tokens', label: 'Tokens', icon: '🔍' },
         { id: 'symbols', label: 'Símbolos', icon: '📦' },
-        { id: 'ir', label: 'IR & Código', icon: '⚙️' },
+        { id: 'ir', label: 'RI y Código', icon: '⚙️' },
     ];
 
     // Map current tab to step index (0-indexed)

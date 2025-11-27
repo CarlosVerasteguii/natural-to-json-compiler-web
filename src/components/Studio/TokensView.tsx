@@ -8,8 +8,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 const TokenItem = ({ token, index, totalTokens, getTokenStyle }: { token: any, index: number, totalTokens: number, getTokenStyle: (t: string) => any }) => {
     const [tooltipAlign, setTooltipAlign] = useState<'left' | 'center' | 'right'>('center');
     const itemRef = React.useRef<HTMLDivElement>(null);
+    const { setHoveredToken } = useCompiler();
 
     const handleMouseEnter = () => {
+        setHoveredToken(token);
         if (itemRef.current && itemRef.current.offsetParent) {
             const parent = itemRef.current.offsetParent as HTMLElement;
             const parentWidth = parent.clientWidth;
@@ -28,6 +30,10 @@ const TokenItem = ({ token, index, totalTokens, getTokenStyle }: { token: any, i
         }
     };
 
+    const handleMouseLeave = () => {
+        setHoveredToken(null);
+    };
+
     const style = getTokenStyle(token.type);
     const isNearBottom = index > totalTokens - 5 || index > totalTokens * 0.8;
 
@@ -40,6 +46,7 @@ const TokenItem = ({ token, index, totalTokens, getTokenStyle }: { token: any, i
             layout
             ref={itemRef}
             onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
@@ -60,7 +67,7 @@ const TokenItem = ({ token, index, totalTokens, getTokenStyle }: { token: any, i
             </div>
 
             <div className={`
-                absolute ${alignClass} w-48 p-2 bg-slate-900 border border-slate-700 rounded-lg shadow-xl 
+                absolute ${alignClass} w-48 p-2 bg-midnight-900 border border-midnight-700 rounded-lg shadow-xl 
                 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50
                 ${isNearBottom ? 'bottom-full mb-2' : 'top-full mt-2'}
             `}>
@@ -68,7 +75,7 @@ const TokenItem = ({ token, index, totalTokens, getTokenStyle }: { token: any, i
                 <div className="text-[10px] text-slate-300 leading-tight">
                     {style.desc}
                 </div>
-                <div className="mt-1 pt-1 border-t border-slate-800 text-[9px] text-slate-500 font-mono">
+                <div className="mt-1 pt-1 border-t border-midnight-800 text-[9px] text-slate-500 font-mono">
                     Línea {token.line}
                 </div>
             </div>
@@ -86,7 +93,7 @@ const TokensView = () => {
         return (
             <div className="flex flex-col items-center justify-center h-full text-slate-500">
                 <div className="text-4xl mb-4">🔍</div>
-                <p>No tokens generated yet.</p>
+                <p>No se han generado tokens aún.</p>
             </div>
         );
     }
@@ -100,33 +107,33 @@ const TokensView = () => {
     const getTokenStyle = (type: string) => {
         const styles: Record<string, { label: string, color: string, border: string, bg: string, desc: string }> = {
             'CREAR': { label: 'Acción', color: 'text-blue-300', border: 'border-blue-500/50', bg: 'bg-blue-900/40', desc: 'Palabra clave que inicia una acción' },
-            'OBJETO': { label: 'Tipo', color: 'text-purple-300', border: 'border-purple-500/50', bg: 'bg-purple-900/40', desc: 'Define qué estamos creando' },
+            'OBJETO': { label: 'Tipo', color: 'text-purple-300', border: 'border-purple-500/50', bg: 'bg-purple-900/40', desc: 'Define qué se está creando' },
             'LISTA': { label: 'Tipo', color: 'text-purple-300', border: 'border-purple-500/50', bg: 'bg-purple-900/40', desc: 'Define una colección de elementos' },
-            'CON': { label: 'Conector', color: 'text-slate-400', border: 'border-slate-600/50', bg: 'bg-slate-800/40', desc: 'Une partes de la instrucción' },
-            'AGREGAR': { label: 'Acción', color: 'text-blue-300', border: 'border-blue-500/50', bg: 'bg-blue-900/40', desc: 'Añade elementos a una lista' },
-            'A': { label: 'Conector', color: 'text-slate-400', border: 'border-slate-600/50', bg: 'bg-slate-800/40', desc: 'Preposición' },
+            'CON': { label: 'Conector', color: 'text-slate-400', border: 'border-slate-600/50', bg: 'bg-midnight-800/40', desc: 'Une partes de la instrucción' },
+            'AGREGAR': { label: 'Acción', color: 'text-blue-300', border: 'border-blue-500/50', bg: 'bg-blue-900/40', desc: 'Agrega elementos a una lista' },
+            'A': { label: 'Conector', color: 'text-slate-400', border: 'border-slate-600/50', bg: 'bg-midnight-800/40', desc: 'Preposición' },
             'VALOR': { label: 'Propiedad', color: 'text-cyan-300', border: 'border-cyan-500/50', bg: 'bg-cyan-900/40', desc: 'Indica el valor a asignar' },
             'IDENTIFICADOR': { label: 'Nombre', color: 'text-yellow-300', border: 'border-yellow-500/50', bg: 'bg-yellow-900/40', desc: 'Nombre único dado por el usuario' },
             'STRING': { label: 'Texto', color: 'text-green-300', border: 'border-green-500/50', bg: 'bg-green-900/40', desc: 'Valor de texto literal' },
             'NUMBER': { label: 'Número', color: 'text-orange-300', border: 'border-orange-500/50', bg: 'bg-orange-900/40', desc: 'Valor numérico' },
             'BOOLEAN': { label: 'Booleano', color: 'text-red-300', border: 'border-red-500/50', bg: 'bg-red-900/40', desc: 'Valor verdadero o falso' },
-            'DOS_PUNTOS': { label: 'Sintaxis', color: 'text-slate-500', border: 'border-slate-700/50', bg: 'bg-slate-900/40', desc: 'Separador' },
-            'WHITESPACE': { label: 'Espacio', color: 'text-slate-600', border: 'border-slate-800', bg: 'bg-transparent', desc: 'Espacio en blanco (ignorado)' },
+            'DOS_PUNTOS': { label: 'Sintaxis', color: 'text-slate-500', border: 'border-slate-700/50', bg: 'bg-midnight-900/40', desc: 'Separador' },
+            'WHITESPACE': { label: 'Espacio', color: 'text-slate-600', border: 'border-midnight-800', bg: 'bg-transparent', desc: 'Espacio en blanco (ignorado)' },
         };
 
-        return styles[type] || { label: type, color: 'text-slate-300', border: 'border-slate-700', bg: 'bg-slate-800', desc: 'Token desconocido' };
+        return styles[type] || { label: type, color: 'text-slate-300', border: 'border-slate-700', bg: 'bg-midnight-800', desc: 'Token desconocido' };
     };
 
     return (
         <div className="h-full flex flex-col">
             {/* Toolbar */}
-            <div className="flex justify-end px-4 py-2 border-b border-slate-800/50 bg-slate-950/30">
+            <div className="flex justify-end px-4 py-2 border-b border-midnight-800/50 bg-midnight-950/30">
                 <label className="flex items-center space-x-2 text-xs text-slate-400 cursor-pointer hover:text-slate-200 transition-colors">
                     <input
                         type="checkbox"
                         checked={showWhitespace}
                         onChange={(e) => setShowWhitespace(e.target.checked)}
-                        className="rounded border-slate-700 bg-slate-900 text-blue-600 focus:ring-blue-500/20"
+                        className="rounded border-slate-700 bg-midnight-900 text-blue-600 focus:ring-blue-500/20"
                     />
                     <span>Mostrar espacios</span>
                 </label>
