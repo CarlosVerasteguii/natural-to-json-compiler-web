@@ -43,7 +43,7 @@ export async function POST(request: Request) {
                                 role: "system",
                                 content: `Eres un experto en el lenguaje "Natural a JSON". 
 REGLAS DEL LENGUAJE:
-1. Los booleanos SON "VERDADERO" o "FALSO". NUNCA uses "true" o "false".
+1. Los booleanos son las palabras reservadas VERDADERO o FALSO (SIN COMILLAS).
 2. Las cadenas siempre usan comillas dobles: "texto".
 3. Las claves de objetos NO llevan comillas.
 4. Para listas usa: CREAR LISTA nombre CON ELEMENTOS valor1, valor2
