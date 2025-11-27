@@ -103,7 +103,7 @@ const SymbolTableViewer = () => {
                                 <h4 className="text-[10px] uppercase tracking-wider text-slate-500 mb-2 font-semibold">
                                     Propiedades & Tipos
                                 </h4>
-                                {renderMetadata(sym.metadatos)}
+                                {renderMetadata(sym.metadatos as Record<string, unknown>)}
                             </div>
                         </motion.div>
                     );
