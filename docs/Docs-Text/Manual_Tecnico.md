@@ -886,7 +886,7 @@ case 'CREATE_ARRAY':
 
 > **¿Preguntas o sugerencias?**
 >
-> 📧 Contacto: a2203330170@alumnos.uat.edu.mx
+> 📧 Contacto: a2203330170@alumnos.uat.edu.mx | a2203330125@alumnos.uat.edu.mx
 🐛 Reportar bugs: https://github.com/CarlosVerasteguii/natural-to-json-compiler-web/issues
 💬 Discusiones: https://github.com/CarlosVerasteguii/natural-to-json-compiler-web/discussions
 
@@ -895,19 +895,5 @@ case 'CREATE_ARRAY':
 **Última actualización:** Noviembre 2024
 **Versión del compilador:** 1.0.0
 **Autor:** Equipo de Desarrollo
-
----
-
-## 🤖 Asistencia Técnica con IA
-
-¿Necesitas ayuda para entender la arquitectura, extender la gramática o depurar el compilador?
-
-Puedes consultar a nuestra IA técnica, que tiene acceso completo al código fuente y documentación del proyecto.
-
-👉 **[Consultar a la IA del Proyecto](https://deepwiki.com/CarlosVerasteguii/natural-to-json-compiler-web)**
-
-La IA (Devian) puede ayudarte a:
-- Explicar el flujo de datos entre componentes.
-- Generar snippets para nuevos Listeners.
 - Analizar errores de compilación o runtime.
 

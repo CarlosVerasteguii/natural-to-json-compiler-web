@@ -3,6 +3,8 @@
 > [!NOTE]
 > Este manual detalla la arquitectura interna del compilador y está dirigido a desarrolladores que deseen comprender o extender el sistema.
 
+🚀 **[Ver Demo en Vivo](https://natural-to-json-compiler-web.vercel.app/)**
+
 ## 📋 Tabla de Contenidos
 
 - [Visión General](#visión-general)
