@@ -96,6 +96,9 @@ export class SemanticListener implements NaturalToJsonListener {
         `Error Semantico (L${linea}:C${col}): La propiedad 'activo' debe ser de tipo BOOLEAN.`
       );
     }
+
+    // Add property to symbol table
+    this.symbolTable.addProperty(this.currentObject, clave, tipoValor);
   }
 
   visitTerminal() { }

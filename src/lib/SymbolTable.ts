@@ -46,6 +46,18 @@ export class SymbolTable {
     return true;
   }
 
+  addProperty(nombre: string, key: string, type: string): boolean {
+    const entry = this.symbols.get(nombre);
+    if (!entry) {
+      return false;
+    }
+    if (typeof entry.metadatos !== 'object' || entry.metadatos === null) {
+      entry.metadatos = {};
+    }
+    (entry.metadatos as Record<string, unknown>)[key] = type;
+    return true;
+  }
+
   getDebugInfo(): Record<string, unknown> {
     const info: Record<string, unknown> = {};
     this.symbols.forEach((value, key) => {
