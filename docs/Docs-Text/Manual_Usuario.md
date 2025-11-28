@@ -79,7 +79,7 @@ Necesitas tener instalado:
 
 ```bash
 # Opción A: Clonar desde repositorio
-git clone <url-del-repositorio>
+git clone https://github.com/CarlosVerasteguii/natural-to-json-compiler-web
 cd natural-to-json-compiler-web
 
 # Opción B: Descargar ZIP

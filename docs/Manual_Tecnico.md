@@ -83,7 +83,7 @@ flowchart TD
 
 **Archivos:**
 
-- Gramática: [NaturalToJson.g4](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/NaturalToJson.g4)
+- Gramática: [NaturalToJson.g4](../src/NaturalToJson.g4)
 - Parser generado: `src/generated/`
 
 **Proceso:**
@@ -116,9 +116,9 @@ sequenceDiagram
 
 **Archivos:**
 
-- [analyzer.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/analyzer.ts)
-- [SemanticListener.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/SemanticListener.ts)
-- [SymbolTable.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/SymbolTable.ts)
+- [analyzer.ts](../src/lib/analyzer.ts)
+- [SemanticListener.ts](../src/lib/SemanticListener.ts)
+- [SymbolTable.ts](../src/lib/SymbolTable.ts)
 
 **Validaciones realizadas:**
 
@@ -163,8 +163,8 @@ flowchart TD
 
 **Archivos:**
 
-- [IRBuilderListener.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/IRBuilderListener.ts)
-- [irTypes.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/irTypes.ts)
+- [IRBuilderListener.ts](../src/lib/IRBuilderListener.ts)
+- [irTypes.ts](../src/lib/irTypes.ts)
 
 **Formato de Instrucciones:**
 
@@ -194,7 +194,7 @@ IR generado:
 
 **Archivos:**
 
-- [optimizer.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/optimizer.ts)
+- [optimizer.ts](../src/lib/optimizer.ts)
 
 **Técnicas implementadas:**
 
@@ -222,8 +222,8 @@ graph TD
 
 **Archivos:**
 
-- [codegen.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/codegen.ts)
-- [JsonBuilderListener.ts](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/src/lib/JsonBuilderListener.ts)
+- [codegen.ts](../src/lib/codegen.ts)
+- [JsonBuilderListener.ts](../src/lib/JsonBuilderListener.ts)
 
 **Proceso:**
 

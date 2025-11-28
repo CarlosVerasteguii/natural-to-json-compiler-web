@@ -383,8 +383,8 @@ A: Sí, una vez instalado funciona completamente offline.
 ## Recursos Adicionales
 
 - 📖 [Manual Técnico](Manual_Tecnico.md) - Para desarrolladores
-- 📁 [Ejemplos válidos](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/examples/valid)
-- 📁 [Ejemplos con errores](file:///c:/Users/veras/Documents/rete/natural-to-json-compiler-web/examples/invalid)
+- 📁 [Ejemplos válidos](../examples/valid)
+- 📁 [Ejemplos con errores](../examples/invalid)
 
 ---
 

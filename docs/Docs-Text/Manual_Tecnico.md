@@ -686,14 +686,209 @@ case 'CREATE_ARRAY':
 - 📝 Tests: `tests/`
 - 💾 Ejemplos: `examples/`
 - 📖 Manuales: `docs/`
+│   │   ├── SemanticListener.ts       # ✅ Validaciones semánticas
+│   │   ├── SymbolTable.ts            # 📋 Tabla de símbolos
+│   │   ├── IRBuilderListener.ts      # ⚙️  Generador de IR
+│   │   ├── irTypes.ts                # 📦 Tipos de IR
+│   │   ├── optimizer.ts              # 🚀 Optimizador
+│   │   ├── codegen.ts                # 📝 Generador JSON
+│   │   ├── JsonBuilderListener.ts    # 🏗️  Constructor JSON
+│   │   ├── valueUtils.ts             # 🔧 Utilidades
+│   │   └── errorHandler.ts           # ⚠️  Gestión de errores
+│   │
+│   ├── components/                   # 🎨 Componentes React
+│   │   ├── Editor.tsx                # 📝 Editor de código
+│   │   ├── OutputPanel.tsx           # 📊 Panel de salida
+│   │   ├── ErrorDisplay.tsx          # ⚠️  Mostrador de errores
+│   │   └── ...
+│   │
+│   └── app/                          # 🌐 Next.js Pages
+│       ├── page.tsx                  # Página principal
+│       ├── layout.tsx                # Layout global
+│       └── ...
+│
+├── tests/                            # 🧪 Tests automatizados
+│   ├── lexer.test.ts                 # Tests del lexer
+│   ├── parser.test.ts                # Tests del parser
+│   ├── semantic.test.ts              # Tests semánticos
+│   ├── ir.test.ts                    # Tests de IR
+│   ├── optimizer.test.ts             # Tests del optimizador
+│   └── codegen.test.ts               # Tests de generación
+│
+├── examples/                         # 📚 Ejemplos
+│   ├── valid/                        # ✅ Ejemplos válidos
+│   └── invalid/                      # ❌ Ejemplos con errores
+│
+├── docs/                             # 📖 Documentación
+│   ├── Manual_Tecnico.md
+│   ├── Manual_Usuario.md
+│   ├── Docs-Diagrams/
+│   └── Docs-Text/
+│
+├── package.json                      # 📦 Dependencias
+├── tsconfig.json                     # ⚙️  Config TypeScript
+└── Makefile                          # 🛠️  Scripts útiles
+```
+
+---
+
+## 🛠️ Guía de Extensión
+
+### Cómo Agregar Nueva Sintaxis
+
+> **⚠️ ADVERTENCIA:** Modificar la gramática requiere regenerar los archivos de ANTLR
+
+#### 📋 Checklist de Implementación
+
+```
+1. ✏️  MODIFICAR GRAMÁTICA
+   └─→ Editar: src/NaturalToJson.g4
+
+2. 🤖 REGENERAR PARSER
+   └─→ Ejecutar: antlr4 -Dlanguage=TypeScript ...
+
+3. 📋 ACTUALIZAR SEMÁNTICA
+   └─→ Editar: src/lib/SemanticListener.ts
+
+4. ⚙️  ACTUALIZAR IR BUILDER
+   └─→ Editar: src/lib/IRBuilderListener.ts
+
+5. 📝 ACTUALIZAR CODEGEN
+   └─→ Editar: src/lib/JsonBuilderListener.ts
+
+6. 🧪 ESCRIBIR TESTS
+   └─→ Crear: tests/newfeature.test.ts
+
+7. ✅ PROBAR MANUALMENTE
+   └─→ Ejecutar: npm run dev
+```
+
+#### 🎯 Ejemplo: Agregar Soporte para Arrays/Listas
+
+**Paso 1: Gramática** (`NaturalToJson.g4`)
+
+```antlr
+// Agregar nueva regla
+arrayDecl
+  : 'crear' 'lista' ID 'con' '[' valueList ']'
+  ;
+
+valueList
+  : value (',' value)*
+  ;
+
+value
+  : NUMBER
+  | STRING
+  | BOOLEAN
+  | ID
+  ;
+```
+
+**Paso 2: Semántica** (`SemanticListener.ts`)
+
+```typescript
+exitArrayDecl(ctx: any) {
+  const arrayName = ctx.ID().getText();
+
+  // Validar que no existe
+  if (this.symbolTable.exists(arrayName)) {
+    this.errors.push(`Array '${arrayName}' ya declarado`);
+    return;
+  }
+
+  // Agregar a tabla de símbolos
+  this.symbolTable.add(arrayName, 'ARRAY');
+}
+```
+
+**Paso 3: IR Builder** (`IRBuilderListener.ts`)
+
+```typescript
+exitArrayDecl(ctx: any) {
+  const arrayName = ctx.ID().getText();
+  const values = this.extractValues(ctx.valueList());
+
+  this.instructions.push({
+    op: 'CREATE_ARRAY',
+    target: arrayName,
+    args: values
+  });
+}
+```
+
+**Paso 4: Code Generator** (`JsonBuilderListener.ts`)
+
+```typescript
+case 'CREATE_ARRAY':
+  const arrayName = instruction.target;
+  const arrayValues = instruction.args;
+  this.currentObject[arrayName] = arrayValues;
+  break;
+```
+
+---
+
+## 🐛 Troubleshooting - Solución de Problemas
+
+### Diagnóstico Rápido
+
+| 🔍 Problema | 💡 Causa Probable | ✅ Solución |
+|:---|:---|:---|
+| **Parser no reconoce sintaxis** | Gramática desactualizada | Revisar `NaturalToJson.g4` |
+| **"Unexpected token"** | Token no definido en gramática | Agregar token a gramática |
+| **Errores de tipo inconsistentes** | Tabla de símbolos corrupta | Reiniciar análisis |
+| **IR incompleto** | Listener no registrado | Verificar listeners en analyzer.ts |
+| **JSON malformado** | Error en codegen | Revisar JsonBuilderListener |
+| **"Symbol not found"** | Variable usada sin declarar | Verificar declaraciones |
+
+### Flujo de Debug
+
+```
+¿Hay error?
+    ├─→ NO: ¡Excelente! ✅
+    │
+    └─→ SÍ:
+        │
+        ├─→ ¿Es sintáctico?
+        │   └─→ Revisar: NaturalToJson.g4
+        │
+        ├─→ ¿Es semántico?
+        │   ├─→ Revisar: SemanticListener.ts
+        │   └─→ Revisar: SymbolTable.ts
+        │
+        ├─→ ¿Es en IR?
+        │   └─→ Revisar: IRBuilderListener.ts
+        │
+        └─→ ¿Es en generación?
+            └─→ Revisar: codegen.ts
+```
+
+---
+
+## 📚 Referencias y Recursos
+
+### Documentación Externa
+
+- 🔗 [ANTLR Official Docs](https://www.antlr.org/)
+- 🔗 [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- 🔗 [Next.js Documentation](https://nextjs.org/docs)
+- 🔗 [Compiler Design Principles](https://en.wikipedia.org/wiki/Compiler)
+
+### Recursos Internos
+
+- 📁 Código fuente: `src/lib/`
+- 📝 Tests: `tests/`
+- 💾 Ejemplos: `examples/`
+- 📖 Manuales: `docs/`
 
 ### Comunidad y Soporte
 
 > **¿Preguntas o sugerencias?**
 >
-> 📧 Contacto: [Especificar contacto]
-> 🐛 Reportar bugs: [Especificar repositorio]
-> 💬 Discusiones: [Especificar foro]
+> 📧 Contacto: a2203330170@alumnos.uat.edu.mx
+🐛 Reportar bugs: https://github.com/CarlosVerasteguii/natural-to-json-compiler-web/issues
+💬 Discusiones: https://github.com/CarlosVerasteguii/natural-to-json-compiler-web/discussions
 
 ---
 

@@ -3,35 +3,29 @@
 import React, { useState } from 'react';
 import TokenList from '@/components/Pipeline/TokenList';
 import SymbolTableViewer from '@/components/Pipeline/SymbolTableViewer';
-import IRViewer from '@/components/Pipeline/IRViewer';
+import IRViewer from '@/components/Pipeline/IRViewer'; // Keeping this for backward compatibility or as part of Optimization view if needed
 import PipelineFlow from '@/components/Pipeline/PipelineFlow';
 import InfoCard from '@/components/Pipeline/InfoCard';
+import ParserViewer from '@/components/Pipeline/ParserViewer';
+import SemanticViewer from '@/components/Pipeline/SemanticViewer';
+import OptimizationViewer from '@/components/Pipeline/OptimizationViewer';
+import CodeGenViewer from '@/components/Pipeline/CodeGenViewer';
 import { useCompiler } from '@/context/CompilerContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PIPELINE_EXAMPLES } from '@/data/pipelineExamples';
 
 export default function PipelinePage() {
-    const [activeTab, setActiveTab] = useState<'tokens' | 'symbols' | 'ir'>('tokens');
+    const [activeTab, setActiveTab] = useState<'tokens' | 'parser' | 'semantic' | 'symbols' | 'optimization' | 'codegen'>('tokens');
     const { compilationResult, applyCodePatch } = useCompiler();
 
     const tabs = [
-        { id: 'tokens', label: '1. Análisis Léxico', icon: '🔍' },
-        { id: 'symbols', label: '2. Semántica y Símbolos', icon: '📦' },
-        { id: 'ir', label: '3. RI y Optimización', icon: '⚙️' },
+        { id: 'tokens', label: '1. Lexer', icon: '🔍' },
+        { id: 'parser', label: '2. Parser', icon: '🌳' },
+        { id: 'semantic', label: '3. Semántica', icon: '🧠' },
+        { id: 'symbols', label: '4. Símbolos', icon: '📦' },
+        { id: 'optimization', label: '5. Optimización', icon: '⚡' },
+        { id: 'codegen', label: '6. Código', icon: '⚙️' },
     ];
-
-    const loadBasicExample = () => {
-        const code = `crear objeto persona con nombre: "Juan"
-crear objeto config con activo: verdadero
-crear lista numeros con elementos 10, 20, 30`;
-        applyCodePatch(code);
-    };
-
-    const loadOptimizationExample = () => {
-        const code = `crear objeto jugador con vida: 100, vida: 50, vida: 0
-crear objeto config con debug: verdadero, debug: falso`;
-        applyCodePatch(code);
-    };
 
     const getInfoCardProps = () => {
         switch (activeTab) {
@@ -42,19 +36,40 @@ crear objeto config con debug: verdadero, debug: falso`;
                     icon: '🔍',
                     color: 'blue'
                 };
+            case 'parser':
+                return {
+                    title: 'Fase 2: Análisis Sintáctico',
+                    description: 'Organiza los tokens en una estructura jerárquica (Árbol de Sintaxis Abstracta o AST) que representa la gramática y lógica del programa.',
+                    icon: '🌳',
+                    color: 'indigo'
+                };
+            case 'semantic':
+                return {
+                    title: 'Fase 3: Análisis Semántico',
+                    description: 'Verifica que el programa tenga sentido: tipos de datos correctos, variables declaradas y reglas de alcance.',
+                    icon: '🧠',
+                    color: 'pink'
+                };
             case 'symbols':
                 return {
-                    title: 'Fase 2: Análisis Semántico',
-                    description: 'Verificamos el significado, la existencia de variables, validamos tipos y construimos la Tabla de Símbolos para rastrear todo.',
+                    title: 'Fase 4: Tabla de Símbolos',
+                    description: 'Una base de datos viva que rastrea todas las variables, objetos y sus atributos durante la compilación.',
                     icon: '📦',
-                    color: 'green'
+                    color: 'yellow'
                 };
-            case 'ir':
+            case 'optimization':
                 return {
-                    title: 'Fase 3: Representación Intermedia (RI)',
-                    description: 'Traduciendo código a una RI universal, optimizándolo y generando la salida final (Python/JSON).',
+                    title: 'Fase 5: Optimización',
+                    description: 'Mejora el código intermedio (RI) eliminando redundancias y cálculos innecesarios para hacerlo más eficiente.',
+                    icon: '⚡',
+                    color: 'cyan'
+                };
+            case 'codegen':
+                return {
+                    title: 'Fase 6: Generación de Código',
+                    description: 'Traduce la representación interna optimizada al formato de salida final (JSON en este caso).',
                     icon: '⚙️',
-                    color: 'purple'
+                    color: 'green'
                 };
             default:
                 return { title: '', description: '', icon: '' };
@@ -75,12 +90,12 @@ crear objeto config con debug: verdadero, debug: falso`;
                         <h1 className="text-lg font-bold text-slate-200">Inspector de Tubería</h1>
                     </div>
 
-                    <div className="flex bg-midnight-950 p-1 rounded-lg border border-midnight-800">
+                    <div className="flex bg-midnight-950 p-1.5 rounded-lg border border-midnight-800 overflow-x-auto no-scrollbar gap-3">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
-                                onClick={() => setActiveTab(tab.id as 'tokens' | 'symbols' | 'ir')}
-                                className={`relative px-4 py-1.5 text-xs font-medium rounded-md transition-all ${activeTab === tab.id
+                                onClick={() => setActiveTab(tab.id as any)}
+                                className={`relative px-6 py-2.5 text-sm font-medium rounded-md transition-all whitespace-nowrap flex-shrink-0 ${activeTab === tab.id
                                     ? 'text-white'
                                     : 'text-slate-400 hover:text-slate-200'
                                     }`}
@@ -92,8 +107,8 @@ crear objeto config con debug: verdadero, debug: falso`;
                                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                     />
                                 )}
-                                <span className="relative z-10 flex items-center gap-2">
-                                    <span className="opacity-70">{tab.icon}</span>
+                                <span className="relative z-10 flex items-center gap-3">
+                                    <span className="opacity-70 text-lg">{tab.icon}</span>
                                     {tab.label}
                                 </span>
                             </button>
@@ -107,12 +122,12 @@ crear objeto config con debug: verdadero, debug: falso`;
                             <span>Cargar Ejemplo</span>
                         </button>
                         <div className="absolute right-0 top-full pt-2 w-64 hidden group-hover:block z-50">
-                            <div className="bg-midnight-900 border border-midnight-700 rounded-xl shadow-xl overflow-hidden">
+                            <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl overflow-hidden ring-1 ring-white/10">
                                 {PIPELINE_EXAMPLES.map((ex) => (
                                     <button
                                         key={ex.id}
                                         onClick={() => applyCodePatch(ex.code)}
-                                        className="w-full text-left px-4 py-3 hover:bg-midnight-800 transition-colors border-b border-midnight-800/50 last:border-0"
+                                        className="w-full text-left px-4 py-3 hover:bg-slate-800 transition-colors border-b border-slate-800 last:border-0"
                                     >
                                         <div className="flex items-center gap-2 text-slate-200 font-bold text-xs mb-0.5">
                                             <span>{ex.icon}</span>
@@ -134,7 +149,7 @@ crear objeto config con debug: verdadero, debug: falso`;
 
             {/* Content Area */}
             <div className="flex-grow overflow-y-auto relative p-6 bg-midnight-950">
-                <div className="max-w-7xl mx-auto">
+                <div className="max-w-7xl mx-auto h-full">
                     {!compilationResult ? (
                         <div className="flex flex-col items-center justify-center h-[50vh] text-slate-500">
                             <motion.div
@@ -171,7 +186,7 @@ crear objeto config con debug: verdadero, debug: falso`;
                             </motion.div>
                         </div>
                     ) : (
-                        <div className="space-y-6 pb-12">
+                        <div className="space-y-6 pb-12 h-full flex flex-col">
                             <InfoCard {...getInfoCardProps()} />
 
                             <AnimatePresence mode="wait">
@@ -181,11 +196,14 @@ crear objeto config con debug: verdadero, debug: falso`;
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -10 }}
                                     transition={{ duration: 0.2 }}
-                                    className="bg-midnight-900/50 rounded-xl border border-midnight-800 overflow-hidden min-h-[500px] shadow-xl"
+                                    className="bg-midnight-900/50 rounded-xl border border-midnight-800 overflow-hidden flex-grow shadow-xl flex flex-col min-h-[500px]"
                                 >
                                     {activeTab === 'tokens' && <TokenList />}
+                                    {activeTab === 'parser' && <ParserViewer />}
+                                    {activeTab === 'semantic' && <SemanticViewer />}
                                     {activeTab === 'symbols' && <SymbolTableViewer />}
-                                    {activeTab === 'ir' && <IRViewer />}
+                                    {activeTab === 'optimization' && <OptimizationViewer />}
+                                    {activeTab === 'codegen' && <CodeGenViewer />}
                                 </motion.div>
                             </AnimatePresence>
                         </div>
