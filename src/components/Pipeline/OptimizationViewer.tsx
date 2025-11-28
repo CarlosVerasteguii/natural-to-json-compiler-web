@@ -10,10 +10,10 @@ const InstructionList = ({ instructions, title, color }: { instructions: IRInstr
             {instructions.map((inst, idx) => (
                 <div key={idx} className="font-mono text-xs text-slate-400 hover:bg-white/5 p-1.5 rounded flex gap-3">
                     <span className="text-slate-600 w-6 text-right select-none">{idx}</span>
-                    <span className={`text-${color}-300 font-bold`}>{inst.type}</span>
+                    <span className={`text-${color}-300 font-bold`}>{inst.opcode}</span>
                     <span className="text-slate-500">
                         {Object.entries(inst)
-                            .filter(([k]) => k !== 'type')
+                            .filter(([k]) => k !== 'opcode')
                             .map(([k, v]) => `${k}=${JSON.stringify(v)}`)
                             .join(' ')}
                     </span>
