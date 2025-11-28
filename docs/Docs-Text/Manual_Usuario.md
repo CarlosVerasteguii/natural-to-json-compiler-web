@@ -36,6 +36,8 @@
 └──────────────────────────────────────┘
 ```
 
+🚀 **[Probar Demo en Vivo](https://natural-to-json-compiler-web.vercel.app/)**
+
 ### ¿Para Qué Sirve?
 
 | Caso de Uso | Descripción | Ejemplo |
@@ -839,7 +841,7 @@ Puedes copiar el JSON generado y:
 ```
 ¿Tienes preguntas?
 
-📧 Email: [Especificar contacto]
+📧 Email: a2203330170@alumnos.uat.edu.mx | a2203330125@alumnos.uat.edu.mx
 🐛 Reportar bugs: [Especificar repositorio]
 💬 Discusiones: [Especificar comunidad]
 📞 Chat: [Especificar plataforma]

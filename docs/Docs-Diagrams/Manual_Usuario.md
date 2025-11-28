@@ -18,6 +18,8 @@
 
 El **Natural to JSON Compiler Studio** es una herramienta web interactiva que te permite escribir descripciones simples en español y convertirlas automáticamente a formato JSON.
 
+🚀 **[Probar Demo en Vivo](https://natural-to-json-compiler-web.vercel.app/)**
+
 ### ¿Para qué sirve?
 
 ```mermaid
@@ -385,6 +387,12 @@ A: Sí, una vez instalado funciona completamente offline.
 - 📖 [Manual Técnico](Manual_Tecnico.md) - Para desarrolladores
 - 📁 [Ejemplos válidos](../../examples/valid)
 - 📁 [Ejemplos con errores](../../examples/invalid)
+
+### Soporte
+
+¿Tienes preguntas?
+
+📧 Email: a2203330170@alumnos.uat.edu.mx | a2203330125@alumnos.uat.edu.mx
 
 ---
 
