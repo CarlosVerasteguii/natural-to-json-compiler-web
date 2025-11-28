@@ -85,4 +85,4 @@ crear objeto usuario con nombre:"Juan", edad:25
 }
 ```
 
-Para más detalles, consulte el [Manual de Usuario](docs/Manual_Usuario.md).
+Para más detalles, consulte el [Manual de Usuario](docs/Docs-Diagrams/Manual_Usuario.md).

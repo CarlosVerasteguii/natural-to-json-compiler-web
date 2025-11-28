@@ -390,3 +390,19 @@ A: Sí, una vez instalado funciona completamente offline.
 
 > [!TIP]
 > **Pro Tip:** Usa `Ctrl+Enter` para compilar rápidamente sin usar el mouse. ⚡
+
+---
+
+## 🤖 Asistencia con IA
+
+¿Tienes dudas sobre cómo usar el compilador o quieres entender mejor cómo funciona?
+
+Puedes hacer preguntas directamente a nuestra IA entrenada con todo el código y documentación de este proyecto.
+
+👉 **[Preguntar a la IA del Proyecto](https://deepwiki.com/CarlosVerasteguii/natural-to-json-compiler-web)**
+
+La IA (Devian) tiene acceso a todo el repositorio indexado y puede ayudarte a:
+- Entender errores específicos.
+- Generar ejemplos de código.
+- Explicar partes de la documentación.
+

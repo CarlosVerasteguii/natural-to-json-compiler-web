@@ -922,3 +922,19 @@ disponible:    BOOLEAN (verdadero/falso)
 
 > 💡 **Tip Final:** Tómate tu tiempo en aprender. La mejor manera de dominar es PRACTICANDO.
 > Crea ejemplos, comete errores, aprende y ¡mejora! 🚀
+
+---
+
+## 🤖 Asistencia con IA
+
+¿Tienes dudas sobre cómo usar el compilador o quieres entender mejor cómo funciona?
+
+Puedes hacer preguntas directamente a nuestra IA entrenada con todo el código y documentación de este proyecto.
+
+👉 **[Preguntar a la IA del Proyecto](https://deepwiki.com/CarlosVerasteguii/natural-to-json-compiler-web)**
+
+La IA (Devian) tiene acceso a todo el repositorio indexado y puede ayudarte a:
+- Entender errores específicos.
+- Generar ejemplos de código.
+- Explicar partes de la documentación.
+
